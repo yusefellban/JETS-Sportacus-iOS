@@ -1,3 +1,10 @@
+//
+//  SportsContract.swift
+//  sportacus
+//
+//  Created by Noureldeen on 02/06/2026.
+//
+
 import Foundation
 
 protocol SportsViewProtocol: AnyObject {
@@ -5,6 +12,7 @@ protocol SportsViewProtocol: AnyObject {
     func hideLoading()
     func displaySports(_ sports: [Sport])
     func showError(_ message: String)
+    func navigateToLeagues(for sport: Sport)
 }
 
 protocol SportsPresenterProtocol: AnyObject {

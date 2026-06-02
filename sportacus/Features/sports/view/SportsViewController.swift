@@ -1,3 +1,10 @@
+//
+//  SportsViewController.swift
+//  sportacus
+//
+//  Created by Noureldeen on 02/06/2026.
+//
+
 import UIKit
 
 class SportsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, SportsViewProtocol {
@@ -69,6 +76,13 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+    
+    func navigateToLeagues(for sport: Sport) {
+        let leaguesVC = LeaguesTableViewController()
+        let leaguesPresenter = LeaguesPresenter(view: leaguesVC)
+        leaguesVC.presenter = leaguesPresenter
+        navigationController?.pushViewController(leaguesVC, animated: true)
     }
     
     // MARK: - UICollectionViewDataSource

@@ -1,3 +1,10 @@
+//
+//  SportsPresenter.swift
+//  sportacus
+//
+//  Created by Noureldeen on 02/06/2026.
+//
+
 import Foundation
 
 class SportsPresenter: SportsPresenterProtocol {
@@ -19,7 +26,6 @@ class SportsPresenter: SportsPresenterProtocol {
     func selectSport(at index: Int) {
         guard index >= 0 && index < sports.count else { return }
         let selectedSport = sports[index]
-        print("Selected sport: \(selectedSport.displayName)")
-        // In the actual app flow, this will trigger navigation to LeaguesTableViewController
+        view?.navigateToLeagues(for: selectedSport)
     }
 }
