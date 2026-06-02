@@ -28,8 +28,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // 2. Create Favorites VC
         let favoritesVC = FavoritesTableViewController()
+        let favoritesPresenter = FavoritesPresenter(view: favoritesVC)
+        favoritesVC.presenter = favoritesPresenter
+        
         let favoritesNav = UINavigationController(rootViewController: favoritesVC)
-        favoritesNav.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
+        favoritesNav.tabBarItem = UITabBarItem(title: "Favorite", image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
         
         // 3. Create TabBarController
         let tabBarController = UITabBarController()
