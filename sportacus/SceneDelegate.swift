@@ -20,6 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // 1. Create Sports VC with grid flow layout
         let layout = UICollectionViewFlowLayout()
         let sportsVC = SportsViewController(collectionViewLayout: layout)
+        let sportsPresenter = SportsPresenter(view: sportsVC)
+        sportsVC.presenter = sportsPresenter
+        
         let sportsNav = UINavigationController(rootViewController: sportsVC)
         sportsNav.tabBarItem = UITabBarItem(title: "Sports", image: UIImage(systemName: "sportscourt"), selectedImage: UIImage(systemName: "sportscourt.fill"))
         

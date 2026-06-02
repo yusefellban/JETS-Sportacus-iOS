@@ -1,15 +1,32 @@
 import UIKit
 
-class SportsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class SportsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, SportsViewProtocol {
     
-    // Local array for testing UI. Presenter bindings will be added in Phase 5.
-    var sports: [Sport] = Sport.allCases
+    var presenter: SportsPresenterProtocol?
+    private var sports: [Sport] = []
+    
+    // Loading indicator
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = UIColor(named: "LimeNeon") ?? .systemGreen
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Sports"
         
-        // Setup background using custom asset image or fallback color
+        setupBackground()
+        setupCollectionView()
+        setupLoadingIndicator()
+        
+        // Notify presenter that view is ready
+        presenter?.viewDidLoad()
+    }
+    
+    private func setupBackground() {
         let bgImageView = UIImageView()
         bgImageView.contentMode = .scaleAspectFill
         if let bgImage = UIImage(named: "screen_bg") {
@@ -18,12 +35,40 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
             bgImageView.backgroundColor = UIColor(named: "DeepForestNight") ?? .systemBackground
         }
         collectionView.backgroundView = bgImageView
-        
-        // Register cell class
+    }
+    
+    private func setupCollectionView() {
         collectionView.register(SportCategoryCollectionViewCell.self, forCellWithReuseIdentifier: SportCategoryCollectionViewCell.reuseIdentifier)
-        
-        // Configure collection view padding
         collectionView.contentInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+    }
+    
+    private func setupLoadingIndicator() {
+        view.addSubview(activityIndicator)
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
+    // MARK: - SportsViewProtocol
+    
+    func showLoading() {
+        activityIndicator.startAnimating()
+    }
+    
+    func hideLoading() {
+        activityIndicator.stopAnimating()
+    }
+    
+    func displaySports(_ sports: [Sport]) {
+        self.sports = sports
+        collectionView.reloadData()
+    }
+    
+    func showError(_ message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
     
     // MARK: - UICollectionViewDataSource
@@ -42,6 +87,12 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
         return cell
     }
     
+    // MARK: - UICollectionViewDelegate
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presenter?.selectSport(at: indexPath.item)
+    }
+    
     // MARK: - UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -51,7 +102,6 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
         let availableWidth = collectionView.bounds.width - totalHorizontalPadding
         let itemWidth = availableWidth / 2
         
-        // Make the height slightly taller than width for a premium look
         let itemHeight = itemWidth * 1.2
         return CGSize(width: itemWidth, height: itemHeight)
     }
