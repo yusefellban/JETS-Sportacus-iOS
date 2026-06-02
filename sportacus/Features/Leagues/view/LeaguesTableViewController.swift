@@ -106,7 +106,7 @@ class LeaguesTableViewController: UITableViewController, LeaguesViewProtocol, UI
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withReuseIdentifier: LeagueTableViewCell.reuseIdentifier, for: indexPath) as! LeagueTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: LeagueTableViewCell.reuseIdentifier, for: indexPath) as! LeagueTableViewCell
         if let leagueItem = presenter?.league(at: indexPath.row) {
             cell.configure(with: leagueItem)
         }
