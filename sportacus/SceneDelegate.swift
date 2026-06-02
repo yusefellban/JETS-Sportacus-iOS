@@ -13,10 +13,40 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        let window = UIWindow(windowScene: windowScene)
+        
+        // 1. Create Sports VC with grid flow layout
+        let layout = UICollectionViewFlowLayout()
+        let sportsVC = SportsViewController(collectionViewLayout: layout)
+        let sportsNav = UINavigationController(rootViewController: sportsVC)
+        sportsNav.tabBarItem = UITabBarItem(title: "Sports", image: UIImage(systemName: "sportscourt"), selectedImage: UIImage(systemName: "sportscourt.fill"))
+        
+        // 2. Create Favorites VC
+        let favoritesVC = FavoritesTableViewController()
+        let favoritesNav = UINavigationController(rootViewController: favoritesVC)
+        favoritesNav.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
+        
+        // 3. Create TabBarController
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [sportsNav, favoritesNav]
+        
+        // Customize tab bar appearance
+        let appearance = UITabBarAppearance()
+        appearance.configureWithDefaultBackground()
+        appearance.backgroundColor = UIColor(named: "DeepForestNight") ?? .systemBackground
+        
+        tabBarController.tabBar.standardAppearance = appearance
+        if #available(iOS 15.0, *) {
+            tabBarController.tabBar.scrollEdgeAppearance = appearance
+        }
+        tabBarController.tabBar.tintColor = UIColor(named: "LimeNeon") ?? .systemGreen
+        tabBarController.tabBar.unselectedItemTintColor = .lightGray
+        
+        window.rootViewController = tabBarController
+        self.window = window
+        window.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
