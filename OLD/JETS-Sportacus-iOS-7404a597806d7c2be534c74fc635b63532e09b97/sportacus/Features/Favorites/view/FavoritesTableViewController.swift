@@ -2,7 +2,7 @@
 //  FavoritesTableViewController.swift
 //  sportacus
 //
-//  Created by Noureldeen on 03/06/2026.
+//  Created by Noureldeen on 02/06/2026.
 //
 
 import UIKit
@@ -11,7 +11,13 @@ class FavoritesTableViewController: UITableViewController, FavoritesViewProtocol
     
     var presenter: FavoritesPresenterProtocol?
     
-    @IBOutlet weak var searchBar: UISearchBar!
+    private let searchBar: UISearchBar = {
+        let sb = UISearchBar()
+        sb.placeholder = "Search Favorite Leagues"
+        sb.searchBarStyle = .minimal
+        sb.backgroundColor = .clear
+        return sb
+    }()
     
     private let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
@@ -26,9 +32,8 @@ class FavoritesTableViewController: UITableViewController, FavoritesViewProtocol
         title = "Favorite"
         
         setupTableView()
+        setupSearchBar()
         setupLoadingIndicator()
-        
-        searchBar.delegate = self
         
         // Notify presenter to load favorites
         presenter?.viewDidLoad()
@@ -37,6 +42,18 @@ class FavoritesTableViewController: UITableViewController, FavoritesViewProtocol
     private func setupTableView() {
         tableView.backgroundColor = UIColor(red: 247/255, green: 248/255, blue: 250/255, alpha: 1.0)
         tableView.separatorStyle = .none
+        tableView.register(LeagueTableViewCell.self, forCellReuseIdentifier: LeagueTableViewCell.reuseIdentifier)
+    }
+    
+    private func setupSearchBar() {
+        searchBar.delegate = self
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 60))
+        searchBar.frame = CGRect(x: 8, y: 0, width: view.bounds.width - 16, height: 60)
+        searchBar.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        headerView.addSubview(searchBar)
+        
+        tableView.tableHeaderView = headerView
     }
     
     private func setupLoadingIndicator() {
@@ -90,10 +107,7 @@ class FavoritesTableViewController: UITableViewController, FavoritesViewProtocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LeagueTableViewCell.reuseIdentifier, for: indexPath) as! LeagueTableViewCell
         if let leagueItem = presenter?.favorite(at: indexPath.row) {
-            cell.configure(with: leagueItem, isFavorite: true, isFavoritesScreen: true)
-            cell.onActionTapped = { [weak self] in
-                self?.confirmDeletion(at: indexPath)
-            }
+            cell.configure(with: leagueItem)
         }
         return cell
     }
@@ -104,8 +118,23 @@ class FavoritesTableViewController: UITableViewController, FavoritesViewProtocol
         return 96 // Match the 80 height + 16 padding card design
     }
     
-    private func confirmDeletion(at indexPath: IndexPath) {
-        guard let leagueItem = presenter?.favorite(at: indexPath.row) else { return }
+    // MARK: - Swipe to Delete with Alert Confirmation
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
+            self?.confirmDeletion(at: indexPath, completion: completionHandler)
+        }
+        deleteAction.backgroundColor = .systemRed
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        return configuration
+    }
+    
+    private func confirmDeletion(at indexPath: IndexPath, completion: @escaping (Bool) -> Void) {
+        guard let leagueItem = presenter?.favorite(at: indexPath.row) else {
+            completion(false)
+            return
+        }
         
         let alert = UIAlertController(
             title: "Delete Favorite",
@@ -113,10 +142,13 @@ class FavoritesTableViewController: UITableViewController, FavoritesViewProtocol
             preferredStyle: .alert
         )
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            completion(false)
+        })
         
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
             self?.presenter?.deleteFavorite(at: indexPath.row)
+            completion(true)
         })
         
         present(alert, animated: true)

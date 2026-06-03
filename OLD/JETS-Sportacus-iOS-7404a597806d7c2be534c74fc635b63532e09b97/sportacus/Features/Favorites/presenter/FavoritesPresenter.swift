@@ -2,7 +2,7 @@
 //  FavoritesPresenter.swift
 //  sportacus
 //
-//  Created by Noureldeen on 03/06/2026.
+//  Created by Noureldeen on 02/06/2026.
 //
 
 import Foundation
@@ -10,6 +10,7 @@ import Foundation
 class FavoritesPresenter: FavoritesPresenterProtocol {
     weak var view: FavoritesViewProtocol?
     
+    private var allFavorites: [League] = []
     private var filteredFavorites: [League] = []
     
     init(view: FavoritesViewProtocol) {
@@ -18,13 +19,21 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
     
     func viewDidLoad() {
         view?.showLoading()
-        filteredFavorites = FavoritesManager.shared.favorites
+        
+        // Mock favorites matching the user's screenshot
+        allFavorites = [
+            League(leagueKey: 3, leagueName: "Premier League", leagueLogo: "premier_league", countryName: "England"),
+            League(leagueKey: 7, leagueName: "Premier League", leagueLogo: nil, countryName: "Egypt"),
+            League(leagueKey: 8, leagueName: "Pro League", leagueLogo: nil, countryName: "Belgium")
+        ]
+        
+        filteredFavorites = allFavorites
+        
         view?.hideLoading()
         view?.displayFavorites(filteredFavorites)
     }
     
     func searchFavorites(with query: String) {
-        let allFavorites = FavoritesManager.shared.favorites
         if query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             filteredFavorites = allFavorites
         } else {
@@ -40,8 +49,13 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
         guard index >= 0 && index < filteredFavorites.count else { return }
         let deletedItem = filteredFavorites[index]
         
-        FavoritesManager.shared.removeFromFavorites(deletedItem)
+        // Remove from filtered list
         filteredFavorites.remove(at: index)
+        
+        // Remove from master list
+        if let masterIndex = allFavorites.firstIndex(where: { $0.leagueKey == deletedItem.leagueKey }) {
+            allFavorites.remove(at: masterIndex)
+        }
         
         view?.displayFavorites(filteredFavorites)
     }
@@ -52,29 +66,5 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
     
     func favorite(at index: Int) -> League {
         return filteredFavorites[index]
-    }
-}
-
-// MARK: - FavoritesManager Shared State Singleton
-class FavoritesManager {
-    static let shared = FavoritesManager()
-    
-    private(set) var favorites: [League] = [
-        League(leagueKey: 3, leagueName: "Premier League", leagueLogo: "premier_league", countryName: "England"),
-        League(leagueKey: 4, leagueName: "Primera", leagueLogo: "la_liga", countryName: "Spain"),
-        League(leagueKey: 5, leagueName: "Serie A", leagueLogo: "serie_a", countryName: "Italy")
-    ]
-    
-    func isFavorite(_ league: League) -> Bool {
-        return favorites.contains { $0.leagueKey == league.leagueKey }
-    }
-    
-    func addToFavorites(_ league: League) {
-        guard !isFavorite(league) else { return }
-        favorites.append(league)
-    }
-    
-    func removeFromFavorites(_ league: League) {
-        favorites.removeAll { $0.leagueKey == league.leagueKey }
     }
 }

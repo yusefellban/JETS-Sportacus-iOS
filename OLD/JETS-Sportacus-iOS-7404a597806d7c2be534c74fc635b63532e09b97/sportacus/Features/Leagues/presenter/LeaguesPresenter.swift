@@ -1,10 +1,3 @@
-//
-//  LeaguesPresenter.swift
-//  sportacus
-//
-//  Created by Noureldeen on 03/06/2026.
-//
-
 import Foundation
 
 class LeaguesPresenter: LeaguesPresenterProtocol {
@@ -22,7 +15,7 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
         
         // Populate dummy data based on user image categories
         allLeagues = [
-            League(leagueKey: 1, leagueName: "UEFA Nations League", leagueLogo: "uefa_nations_league", countryName: "Eurocups"),
+            League(leagueKey: 1, leagueName: "UEFA Nations League", leagueLogo: "uefa_nations_league", countryName: "eurocups"),
             League(leagueKey: 2, leagueName: "World Cup", leagueLogo: "world_cup", countryName: "Worldcup"),
             League(leagueKey: 3, leagueName: "Premier League", leagueLogo: "premier_league", countryName: "England"),
             League(leagueKey: 4, leagueName: "Primera", leagueLogo: "la_liga", countryName: "Spain"),
@@ -60,20 +53,5 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
     
     func league(at index: Int) -> League {
         return filteredLeagues[index]
-    }
-    
-    func isFavorite(league: League) -> Bool {
-        return FavoritesManager.shared.isFavorite(league)
-    }
-    
-    func toggleFavorite(at index: Int) {
-        guard index >= 0 && index < filteredLeagues.count else { return }
-        let selectedLeague = filteredLeagues[index]
-        if FavoritesManager.shared.isFavorite(selectedLeague) {
-            FavoritesManager.shared.removeFromFavorites(selectedLeague)
-        } else {
-            FavoritesManager.shared.addToFavorites(selectedLeague)
-        }
-        view?.displayLeagues(filteredLeagues)
     }
 }

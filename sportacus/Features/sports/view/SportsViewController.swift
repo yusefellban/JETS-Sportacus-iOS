@@ -42,10 +42,34 @@ class SportsViewController: UIViewController, SportsViewProtocol {
         
         cards.forEach { card in
             guard let card = card else { return }
-            card.layer.cornerRadius = 24
-            card.layer.masksToBounds = true
+            // Rounded corners on the container card
+            card.layer.cornerRadius = 16
             card.layer.borderWidth = 1.5
             card.layer.borderColor = borderColor
+            card.backgroundColor = .white
+            
+            // Premium iOS Card shadow
+            card.layer.shadowColor = UIColor.black.cgColor
+            card.layer.shadowOpacity = 0.1
+            card.layer.shadowOffset = CGSize(width: 0, height: 4)
+            card.layer.shadowRadius = 6
+            card.layer.masksToBounds = false
+            
+            // Round the corners of the subviews (image and title container)
+            if card.subviews.count >= 2 {
+                let imgView = card.subviews[0]
+                let titleView = card.subviews[1]
+                
+                // Round top corners of the image
+                imgView.clipsToBounds = true
+                imgView.layer.cornerRadius = 16
+                imgView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+                
+                // Round bottom corners of the title container
+                titleView.clipsToBounds = true
+                titleView.layer.cornerRadius = 16
+                titleView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            }
         }
     }
     

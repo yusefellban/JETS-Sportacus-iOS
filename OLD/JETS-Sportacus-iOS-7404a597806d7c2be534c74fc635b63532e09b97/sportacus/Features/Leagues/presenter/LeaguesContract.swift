@@ -1,10 +1,3 @@
-//
-//  LeaguesContract.swift
-//  sportacus
-//
-//  Created by Noureldeen on 03/06/2026.
-//
-
 import Foundation
 
 protocol LeaguesViewProtocol: AnyObject {
@@ -23,6 +16,4 @@ protocol LeaguesPresenterProtocol: AnyObject {
     
     var numberOfLeagues: Int { get }
     func league(at index: Int) -> League
-    func isFavorite(league: League) -> Bool
-    func toggleFavorite(at index: Int)
 }
