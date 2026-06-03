@@ -85,6 +85,13 @@ class LeaguesTableViewController: UITableViewController, LeaguesViewProtocol, UI
         present(alert, animated: true)
     }
     
+    func navigateToLeagueDetails(for league: League) {
+        let detailsVC = LeagueDetailsViewController()
+        let detailsPresenter = LeagueDetailsPresenter(view: detailsVC, league: league)
+        detailsVC.presenter = detailsPresenter
+        navigationController?.pushViewController(detailsVC, animated: true)
+    }
+    
     // MARK: - UISearchBarDelegate
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
