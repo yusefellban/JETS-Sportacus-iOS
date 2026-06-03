@@ -16,27 +16,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
+        self.window = window
         
-        // 1. Create Sports VC with grid flow layout
-        let layout = UICollectionViewFlowLayout()
-        let sportsVC = SportsViewController(collectionViewLayout: layout)
-        let sportsPresenter = SportsPresenter(view: sportsVC)
-        sportsVC.presenter = sportsPresenter
+        // Load root view controller from Storyboard
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let tabBarController = storyboard.instantiateInitialViewController() as? UITabBarController else {
+            window.makeKeyAndVisible()
+            return
+        }
         
-        let sportsNav = UINavigationController(rootViewController: sportsVC)
-        sportsNav.tabBarItem = UITabBarItem(title: "Sports", image: UIImage(systemName: "sportscourt"), selectedImage: UIImage(systemName: "sportscourt.fill"))
+        // Wire up Sports presenter
+        if let sportsNav = tabBarController.viewControllers?[0] as? UINavigationController,
+           let sportsVC = sportsNav.topViewController as? SportsViewController {
+            let presenter = SportsPresenter(view: sportsVC)
+            sportsVC.presenter = presenter
+        }
         
-        // 2. Create Favorites VC
-        let favoritesVC = FavoritesTableViewController()
-        let favoritesPresenter = FavoritesPresenter(view: favoritesVC)
-        favoritesVC.presenter = favoritesPresenter
-        
-        let favoritesNav = UINavigationController(rootViewController: favoritesVC)
-        favoritesNav.tabBarItem = UITabBarItem(title: "Favorite", image: UIImage(systemName: "heart"), selectedImage: UIImage(systemName: "heart.fill"))
-        
-        // 3. Create TabBarController
-        let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [sportsNav, favoritesNav]
+        // Wire up Favorites presenter
+        if let favNav = tabBarController.viewControllers?[1] as? UINavigationController,
+           let favVC = favNav.topViewController as? FavoritesTableViewController {
+            let presenter = FavoritesPresenter(view: favVC)
+            favVC.presenter = presenter
+        }
         
         // Customize tab bar appearance
         let appearance = UITabBarAppearance()
@@ -51,7 +52,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.tabBar.unselectedItemTintColor = .lightGray
         
         window.rootViewController = tabBarController
-        self.window = window
         window.makeKeyAndVisible()
     }
 

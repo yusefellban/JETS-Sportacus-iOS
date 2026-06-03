@@ -43,7 +43,6 @@ class LeaguesTableViewController: UITableViewController, LeaguesViewProtocol, UI
         // Soft gray background color for a premium look under Light Mode
         tableView.backgroundColor = UIColor(red: 247/255, green: 248/255, blue: 250/255, alpha: 1.0)
         tableView.separatorStyle = .none
-        tableView.register(LeagueTableViewCell.self, forCellReuseIdentifier: LeagueTableViewCell.reuseIdentifier)
     }
     
     private func setupSearchBar() {

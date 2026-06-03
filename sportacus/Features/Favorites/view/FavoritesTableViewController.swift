@@ -42,7 +42,6 @@ class FavoritesTableViewController: UITableViewController, FavoritesViewProtocol
     private func setupTableView() {
         tableView.backgroundColor = UIColor(red: 247/255, green: 248/255, blue: 250/255, alpha: 1.0)
         tableView.separatorStyle = .none
-        tableView.register(LeagueTableViewCell.self, forCellReuseIdentifier: LeagueTableViewCell.reuseIdentifier)
     }
     
     private func setupSearchBar() {

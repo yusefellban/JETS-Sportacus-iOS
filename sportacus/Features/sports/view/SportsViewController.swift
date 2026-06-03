@@ -45,7 +45,6 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
     }
     
     private func setupCollectionView() {
-        collectionView.register(SportCategoryCollectionViewCell.self, forCellWithReuseIdentifier: SportCategoryCollectionViewCell.reuseIdentifier)
         collectionView.contentInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
     
@@ -79,7 +78,8 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
     }
     
     func navigateToLeagues(for sport: Sport) {
-        let leaguesVC = LeaguesTableViewController()
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let leaguesVC = storyboard.instantiateViewController(withIdentifier: "LeaguesTableViewController") as? LeaguesTableViewController else { return }
         let leaguesPresenter = LeaguesPresenter(view: leaguesVC)
         leaguesVC.presenter = leaguesPresenter
         navigationController?.pushViewController(leaguesVC, animated: true)
