@@ -2,15 +2,19 @@
 //  SportsViewController.swift
 //  sportacus
 //
-//  Created by Noureldeen on 02/06/2026.
+//  Created by Noureldeen on 03/06/2026.
 //
 
 import UIKit
 
-class SportsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, SportsViewProtocol {
+class SportsViewController: UIViewController, SportsViewProtocol {
     
     var presenter: SportsPresenterProtocol?
-    private var sports: [Sport] = []
+    
+    @IBOutlet weak var footballCard: UIView!
+    @IBOutlet weak var basketballCard: UIView!
+    @IBOutlet weak var cricketCard: UIView!
+    @IBOutlet weak var tennisCard: UIView!
     
     // Loading indicator
     private let activityIndicator: UIActivityIndicatorView = {
@@ -25,27 +29,24 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
         super.viewDidLoad()
         title = "Sports"
         
-        setupBackground()
-        setupCollectionView()
+        setupCardStyles()
         setupLoadingIndicator()
         
         // Notify presenter that view is ready
         presenter?.viewDidLoad()
     }
     
-    private func setupBackground() {
-        let bgImageView = UIImageView()
-        bgImageView.contentMode = .scaleAspectFill
-        if let bgImage = UIImage(named: "screen_bg") {
-            bgImageView.image = bgImage
-        } else {
-            bgImageView.backgroundColor = UIColor(named: "DeepForestNight") ?? .systemBackground
+    private func setupCardStyles() {
+        let cards = [footballCard, basketballCard, cricketCard, tennisCard]
+        let borderColor = UIColor(named: "LimeNeon")?.cgColor ?? UIColor.green.cgColor
+        
+        cards.forEach { card in
+            guard let card = card else { return }
+            card.layer.cornerRadius = 24
+            card.layer.masksToBounds = true
+            card.layer.borderWidth = 1.5
+            card.layer.borderColor = borderColor
         }
-        collectionView.backgroundView = bgImageView
-    }
-    
-    private func setupCollectionView() {
-        collectionView.contentInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
     
     private func setupLoadingIndicator() {
@@ -54,6 +55,24 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+    }
+    
+    // MARK: - IBActions for grid buttons
+    
+    @IBAction func footballTapped(_ sender: UIButton) {
+        presenter?.selectSport(at: 0)
+    }
+    
+    @IBAction func basketballTapped(_ sender: UIButton) {
+        presenter?.selectSport(at: 1)
+    }
+    
+    @IBAction func cricketTapped(_ sender: UIButton) {
+        presenter?.selectSport(at: 2)
+    }
+    
+    @IBAction func tennisTapped(_ sender: UIButton) {
+        presenter?.selectSport(at: 3)
     }
     
     // MARK: - SportsViewProtocol
@@ -67,8 +86,8 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
     }
     
     func displaySports(_ sports: [Sport]) {
-        self.sports = sports
-        collectionView.reloadData()
+        // Dynamic array update not strictly required since it is a static layout,
+        // but presenter logic is maintained.
     }
     
     func showError(_ message: String) {
@@ -83,48 +102,5 @@ class SportsViewController: UICollectionViewController, UICollectionViewDelegate
         let leaguesPresenter = LeaguesPresenter(view: leaguesVC)
         leaguesVC.presenter = leaguesPresenter
         navigationController?.pushViewController(leaguesVC, animated: true)
-    }
-    
-    // MARK: - UICollectionViewDataSource
-    
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sports.count
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportCategoryCollectionViewCell.reuseIdentifier, for: indexPath) as! SportCategoryCollectionViewCell
-        cell.configure(with: sports[indexPath.item])
-        return cell
-    }
-    
-    // MARK: - UICollectionViewDelegate
-    
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        presenter?.selectSport(at: indexPath.item)
-    }
-    
-    // MARK: - UICollectionViewDelegateFlowLayout
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let padding: CGFloat = 16
-        let spacing: CGFloat = 16
-        let totalHorizontalPadding = padding * 2 + spacing
-        let availableWidth = collectionView.bounds.width - totalHorizontalPadding
-        let itemWidth = availableWidth / 2
-        
-        let itemHeight = itemWidth * 1.2
-        return CGSize(width: itemWidth, height: itemHeight)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 16
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 16
     }
 }

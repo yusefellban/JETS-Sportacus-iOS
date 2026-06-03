@@ -48,71 +48,245 @@
         <!--Sports View Controller-->
         <scene sceneID="sportsVCSceneID">
             <objects>
-                <collectionViewController id="sportsVC" customClass="SportsViewController" customModule="sportacus" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="collectionViewID">
+                <viewController id="sportsVC" customClass="SportsViewController" customModule="sportacus" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sportsRootView">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="flowLayoutID">
-                            <size key="itemSize" width="128" height="128"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SportCategoryCollectionViewCell" id="sportCell" customClass="SportCategoryCollectionViewCell" customModule="sportacus" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sportCellImg">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="78"/>
-                                        </imageView>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sportCellContainer">
-                                            <rect key="frame" x="0.0" y="78" width="128" height="50"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sportCellTitle">
-                                                    <rect key="frame" x="16" y="14.666666666666671" width="96" height="21"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstItem="sportCellTitle" firstAttribute="centerY" secondItem="sportCellContainer" secondAttribute="centerY" id="c1"/>
-                                                <constraint firstItem="sportCellTitle" firstAttribute="leading" secondItem="sportCellContainer" secondAttribute="leading" constant="16" id="c2"/>
-                                                <constraint firstAttribute="trailing" secondItem="sportCellTitle" secondAttribute="trailing" constant="16" id="c3"/>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="c4"/>
-                                                <constraint firstAttribute="height" constant="50" id="c5"/>
-                                            </constraints>
-                                        </view>
-                                    </subviews>
-                                </view>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="screen_bg" translatesAutoresizingMaskIntoConstraints="NO" id="sportsBgImg">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="sportsGridStack">
+                                <rect key="frame" x="16" y="123" width="361" height="433.33333333333326"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="sportsRow1">
+                                        <rect key="frame" x="0.0" y="0.0" width="361" height="208.66666666666666"/>
+                                        <subviews>
+                                            <!-- Football Card -->
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cardFootball">
+                                                <rect key="frame" x="0.0" y="0.0" width="172.66666666666666" height="208.66666666666666"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="football_bg" translatesAutoresizingMaskIntoConstraints="NO" id="imgFootball">
+                                                        <rect key="frame" x="0.0" y="0.0" width="172.66666666666666" height="158.66666666666666"/>
+                                                    </imageView>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="titleContainerFootball">
+                                                        <rect key="frame" x="0.0" y="158.66666666666666" width="172.66666666666666" height="50"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Football" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lblFootball">
+                                                                <rect key="frame" x="16" y="14.666666666666686" width="140.66666666666666" height="21"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="hFootball"/>
+                                                            <constraint firstItem="lblFootball" firstAttribute="centerY" secondItem="titleContainerFootball" secondAttribute="centerY" id="cyFootball"/>
+                                                            <constraint firstItem="lblFootball" firstAttribute="leading" secondItem="titleContainerFootball" secondAttribute="leading" constant="16" id="leadFootball"/>
+                                                            <constraint firstAttribute="trailing" secondItem="lblFootball" secondAttribute="trailing" constant="16" id="trailFootball"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btnFootball">
+                                                        <rect key="frame" x="0.0" y="0.0" width="172.66666666666666" height="208.66666666666666"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <connections>
+                                                            <action selector="footballTapped:" destination="sportsVC" eventType="touchUpInside" id="actFootball"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="imgFootball" firstAttribute="top" secondItem="cardFootball" secondAttribute="top" id="t1"/>
+                                                    <constraint firstItem="imgFootball" firstAttribute="leading" secondItem="cardFootball" secondAttribute="leading" id="l1"/>
+                                                    <constraint firstAttribute="trailing" secondItem="imgFootball" secondAttribute="trailing" id="r1"/>
+                                                    <constraint firstItem="imgFootball" firstAttribute="bottom" secondItem="titleContainerFootball" secondAttribute="top" id="b1"/>
+                                                    <constraint firstItem="titleContainerFootball" firstAttribute="leading" secondItem="cardFootball" secondAttribute="leading" id="l2"/>
+                                                    <constraint firstAttribute="trailing" secondItem="titleContainerFootball" secondAttribute="trailing" id="r2"/>
+                                                    <constraint firstAttribute="bottom" secondItem="titleContainerFootball" secondAttribute="bottom" id="b2"/>
+                                                    <constraint firstItem="btnFootball" firstAttribute="top" secondItem="cardFootball" secondAttribute="top" id="tb1"/>
+                                                    <constraint firstItem="btnFootball" firstAttribute="leading" secondItem="cardFootball" secondAttribute="leading" id="lb1"/>
+                                                    <constraint firstAttribute="trailing" secondItem="btnFootball" secondAttribute="trailing" id="rb1"/>
+                                                    <constraint firstAttribute="bottom" secondItem="btnFootball" secondAttribute="bottom" id="bb1"/>
+                                                </constraints>
+                                            </view>
+                                            <!-- Basketball Card -->
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cardBasketball">
+                                                <rect key="frame" x="188.66666666666663" y="0.0" width="172.33333333333337" height="208.66666666666666"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="basketball_bg" translatesAutoresizingMaskIntoConstraints="NO" id="imgBasketball">
+                                                        <rect key="frame" x="0.0" y="0.0" width="172.33333333333337" height="158.66666666666666"/>
+                                                    </imageView>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="titleContainerBasketball">
+                                                        <rect key="frame" x="0.0" y="158.66666666666666" width="172.33333333333337" height="50"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Basketball" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lblBasketball">
+                                                                <rect key="frame" x="16" y="14.666666666666686" width="140.33333333333334" height="21"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="hBasketball"/>
+                                                            <constraint firstItem="lblBasketball" firstAttribute="centerY" secondItem="titleContainerBasketball" secondAttribute="centerY" id="cyBasketball"/>
+                                                            <constraint firstItem="lblBasketball" firstAttribute="leading" secondItem="titleContainerBasketball" secondAttribute="leading" constant="16" id="leadBasketball"/>
+                                                            <constraint firstAttribute="trailing" secondItem="lblBasketball" secondAttribute="trailing" constant="16" id="trailBasketball"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btnBasketball">
+                                                        <rect key="frame" x="0.0" y="0.0" width="172.33333333333337" height="208.66666666666666"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <connections>
+                                                            <action selector="basketballTapped:" destination="sportsVC" eventType="touchUpInside" id="actBasketball"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="imgBasketball" firstAttribute="top" secondItem="cardBasketball" secondAttribute="top" id="t3"/>
+                                                    <constraint firstItem="imgBasketball" firstAttribute="leading" secondItem="cardBasketball" secondAttribute="leading" id="l3"/>
+                                                    <constraint firstAttribute="trailing" secondItem="imgBasketball" secondAttribute="trailing" id="r3"/>
+                                                    <constraint firstItem="imgBasketball" firstAttribute="bottom" secondItem="titleContainerBasketball" secondAttribute="top" id="b3"/>
+                                                    <constraint firstItem="titleContainerBasketball" firstAttribute="leading" secondItem="cardBasketball" secondAttribute="leading" id="l4"/>
+                                                    <constraint firstAttribute="trailing" secondItem="titleContainerBasketball" secondAttribute="trailing" id="r4"/>
+                                                    <constraint firstAttribute="bottom" secondItem="titleContainerBasketball" secondAttribute="bottom" id="b4"/>
+                                                    <constraint firstItem="btnBasketball" firstAttribute="top" secondItem="cardBasketball" secondAttribute="top" id="tb2"/>
+                                                    <constraint firstItem="btnBasketball" firstAttribute="leading" secondItem="cardBasketball" secondAttribute="leading" id="lb2"/>
+                                                    <constraint firstAttribute="trailing" secondItem="btnBasketball" secondAttribute="trailing" id="rb2"/>
+                                                    <constraint firstAttribute="bottom" secondItem="btnBasketball" secondAttribute="bottom" id="bb2"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="sportsRow2">
+                                        <rect key="frame" x="0.0" y="224.66666666666669" width="361" height="208.66666666666669"/>
+                                        <subviews>
+                                            <!-- Cricket Card -->
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cardCricket">
+                                                <rect key="frame" x="0.0" y="0.0" width="172.66666666666666" height="208.66666666666666"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cricket_bg" translatesAutoresizingMaskIntoConstraints="NO" id="imgCricket">
+                                                        <rect key="frame" x="0.0" y="0.0" width="172.66666666666666" height="158.66666666666666"/>
+                                                    </imageView>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="titleContainerCricket">
+                                                        <rect key="frame" x="0.0" y="158.66666666666663" width="172.66666666666666" height="50"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Cricket" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lblCricket">
+                                                                <rect key="frame" x="16" y="14.666666666666629" width="140.66666666666666" height="21"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="hCricket"/>
+                                                            <constraint firstItem="lblCricket" firstAttribute="centerY" secondItem="titleContainerCricket" secondAttribute="centerY" id="cyCricket"/>
+                                                            <constraint firstItem="lblCricket" firstAttribute="leading" secondItem="titleContainerCricket" secondAttribute="leading" constant="16" id="leadCricket"/>
+                                                            <constraint firstAttribute="trailing" secondItem="lblCricket" secondAttribute="trailing" constant="16" id="trailCricket"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btnCricket">
+                                                        <rect key="frame" x="0.0" y="0.0" width="172.66666666666666" height="208.66666666666666"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <connections>
+                                                            <action selector="cricketTapped:" destination="sportsVC" eventType="touchUpInside" id="actCricket"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="imgCricket" firstAttribute="top" secondItem="cardCricket" secondAttribute="top" id="t5"/>
+                                                    <constraint firstItem="imgCricket" firstAttribute="leading" secondItem="cardCricket" secondAttribute="leading" id="l5"/>
+                                                    <constraint firstAttribute="trailing" secondItem="imgCricket" secondAttribute="trailing" id="r5"/>
+                                                    <constraint firstItem="imgCricket" firstAttribute="bottom" secondItem="titleContainerCricket" secondAttribute="top" id="b5"/>
+                                                    <constraint firstItem="titleContainerCricket" firstAttribute="leading" secondItem="cardCricket" secondAttribute="leading" id="l6"/>
+                                                    <constraint firstAttribute="trailing" secondItem="titleContainerCricket" secondAttribute="trailing" id="r6"/>
+                                                    <constraint firstAttribute="bottom" secondItem="titleContainerCricket" secondAttribute="bottom" id="b6"/>
+                                                    <constraint firstItem="btnCricket" firstAttribute="top" secondItem="cardCricket" secondAttribute="top" id="tb3"/>
+                                                    <constraint firstItem="btnCricket" firstAttribute="leading" secondItem="cardCricket" secondAttribute="leading" id="lb3"/>
+                                                    <constraint firstAttribute="trailing" secondItem="btnCricket" secondAttribute="trailing" id="rb3"/>
+                                                    <constraint firstAttribute="bottom" secondItem="btnCricket" secondAttribute="bottom" id="bb3"/>
+                                                </constraints>
+                                            </view>
+                                            <!-- Tennis Card -->
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cardTennis">
+                                                <rect key="frame" x="188.66666666666663" y="0.0" width="172.33333333333337" height="208.66666666666666"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tennis_bg" translatesAutoresizingMaskIntoConstraints="NO" id="imgTennis">
+                                                        <rect key="frame" x="0.0" y="0.0" width="172.33333333333337" height="158.66666666666666"/>
+                                                    </imageView>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="titleContainerTennis">
+                                                        <rect key="frame" x="0.0" y="158.66666666666663" width="172.33333333333337" height="50"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Tennis" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lblTennis">
+                                                                <rect key="frame" x="16" y="14.666666666666629" width="140.33333333333334" height="21"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="hTennis"/>
+                                                            <constraint firstItem="lblTennis" firstAttribute="centerY" secondItem="titleContainerTennis" secondAttribute="centerY" id="cyTennis"/>
+                                                            <constraint firstItem="lblTennis" firstAttribute="leading" secondItem="titleContainerTennis" secondAttribute="leading" constant="16" id="leadTennis"/>
+                                                            <constraint firstAttribute="trailing" secondItem="lblTennis" secondAttribute="trailing" constant="16" id="trailTennis"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btnTennis">
+                                                        <rect key="frame" x="0.0" y="0.0" width="172.33333333333337" height="208.66666666666666"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <connections>
+                                                            <action selector="tennisTapped:" destination="sportsVC" eventType="touchUpInside" id="actTennis"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="imgTennis" firstAttribute="top" secondItem="cardTennis" secondAttribute="top" id="t7"/>
+                                                    <constraint firstItem="imgTennis" firstAttribute="leading" secondItem="cardTennis" secondAttribute="leading" id="l7"/>
+                                                    <constraint firstAttribute="trailing" secondItem="imgTennis" secondAttribute="trailing" id="r7"/>
+                                                    <constraint firstItem="imgTennis" firstAttribute="bottom" secondItem="titleContainerTennis" secondAttribute="top" id="b7"/>
+                                                    <constraint firstItem="titleContainerTennis" firstAttribute="leading" secondItem="cardTennis" secondAttribute="leading" id="l8"/>
+                                                    <constraint firstAttribute="trailing" secondItem="titleContainerTennis" secondAttribute="trailing" id="r8"/>
+                                                    <constraint firstAttribute="bottom" secondItem="titleContainerTennis" secondAttribute="bottom" id="b8"/>
+                                                    <constraint firstItem="btnTennis" firstAttribute="top" secondItem="cardTennis" secondAttribute="top" id="tb4"/>
+                                                    <constraint firstItem="btnTennis" firstAttribute="leading" secondItem="cardTennis" secondAttribute="leading" id="lb4"/>
+                                                    <constraint firstAttribute="trailing" secondItem="btnTennis" secondAttribute="trailing" id="rb4"/>
+                                                    <constraint firstAttribute="bottom" secondItem="btnTennis" secondAttribute="bottom" id="bb4"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstItem="sportCellImg" firstAttribute="leading" secondItem="sportCell" secondAttribute="leading" id="c6"/>
-                                    <constraint firstItem="sportCellImg" firstAttribute="top" secondItem="sportCell" secondAttribute="top" id="c7"/>
-                                    <constraint firstAttribute="trailing" secondItem="sportCellImg" secondAttribute="trailing" id="c8"/>
-                                    <constraint firstItem="sportCellImg" firstAttribute="bottom" secondItem="sportCellContainer" secondAttribute="top" id="c9"/>
-                                    <constraint firstItem="sportCellContainer" firstAttribute="leading" secondItem="sportCell" secondAttribute="leading" id="c10"/>
-                                    <constraint firstAttribute="trailing" secondItem="sportCellContainer" secondAttribute="trailing" id="c11"/>
-                                    <constraint firstAttribute="bottom" secondItem="sportCellContainer" secondAttribute="bottom" id="c12"/>
+                                    <constraint firstAttribute="width" secondItem="sportsGridStack" secondAttribute="height" multiplier="1:1.2" id="gridAspect"/>
                                 </constraints>
-                                <connections>
-                                    <outlet property="imageView" destination="sportCellImg" id="out1"/>
-                                    <outlet property="titleContainer" destination="sportCellContainer" id="out2"/>
-                                    <outlet property="titleLabel" destination="sportCellTitle" id="out3"/>
-                                </connections>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="sportsVC" id="conn1"/>
-                            <outlet property="delegate" destination="sportsVC" id="conn2"/>
-                        </connections>
-                    </collectionView>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="sportsSafeArea"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="sportsBgImg" firstAttribute="top" secondItem="sportsRootView" secondAttribute="top" id="bgt"/>
+                            <constraint firstItem="sportsBgImg" firstAttribute="leading" secondItem="sportsRootView" secondAttribute="leading" id="bgl"/>
+                            <constraint firstAttribute="trailing" secondItem="sportsBgImg" secondAttribute="trailing" id="bgr"/>
+                            <constraint firstAttribute="bottom" secondItem="sportsBgImg" secondAttribute="bottom" id="bgb"/>
+                            <constraint firstItem="sportsGridStack" firstAttribute="leading" secondItem="sportsSafeArea" secondAttribute="leading" constant="16" id="gsl"/>
+                            <constraint firstItem="sportsSafeArea" firstAttribute="trailing" secondItem="sportsGridStack" secondAttribute="trailing" constant="16" id="gsr"/>
+                            <constraint firstItem="sportsGridStack" firstAttribute="top" secondItem="sportsSafeArea" secondAttribute="top" constant="20" id="gst"/>
+                        </constraints>
+                    </view>
                     <navigationItem key="navigationItem" title="Sports" id="sportsTitle"/>
-                </collectionViewController>
+                    <connections>
+                        <outlet property="basketballCard" destination="cardBasketball" id="outBB"/>
+                        <outlet property="cricketCard" destination="cardCricket" id="outCC"/>
+                        <outlet property="footballCard" destination="cardFootball" id="outFB"/>
+                        <outlet property="tennisCard" destination="cardTennis" id="outTN"/>
+                    </connections>
+                </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sportsVCPlaceholder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="600" y="-300"/>
@@ -144,9 +318,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="favHeader">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="60"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search Favorite Leagues" translatesAutoresizingMaskIntoConstraints="NO" id="favSearch">
+                                    <rect key="frame" x="8" y="2" width="377" height="56"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </searchBar>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="favSearch" secondAttribute="trailing" constant="8" id="hs1"/>
+                                <constraint firstItem="favSearch" firstAttribute="leading" secondItem="favHeader" secondAttribute="leading" constant="8" id="hs2"/>
+                                <constraint firstItem="favSearch" firstAttribute="centerY" secondItem="favHeader" secondAttribute="centerY" id="hs3"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="LeagueTableViewCell" rowHeight="96" id="favLeagueCell" customClass="LeagueTableViewCell" customModule="sportacus" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="50" width="393" height="96"/>
+                                <rect key="frame" x="0.0" y="110" width="393" height="96"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="favLeagueCell" id="favCellContent">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="96"/>
@@ -155,8 +345,9 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="favCardView">
                                             <rect key="frame" x="16" y="8" width="361" height="80"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="favCellBadge">
-                                                    <rect key="frame" x="16" y="15" width="50" height="50"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="trophy.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="favCellBadge">
+                                                    <rect key="frame" x="16" y="16" width="50" height="48.666666666666671"/>
+                                                    <color key="tintColor" systemColor="systemGreenColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="c13"/>
                                                         <constraint firstAttribute="height" constant="50" id="c14"/>
@@ -165,7 +356,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="favTextStack">
                                                     <rect key="frame" x="82" y="18" width="235" height="44"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="League Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="favCellName">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="English Premier League" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="favCellName">
                                                             <rect key="frame" x="0.0" y="0.0" width="235" height="20.333333333333332"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -174,14 +365,15 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="favCountryStack">
                                                             <rect key="frame" x="0.0" y="26.333333333333336" width="235" height="17.666666666666664"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="favCellFlag">
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="globe" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="favCellFlag">
                                                                     <rect key="frame" x="0.0" y="0.0" width="18" height="17.666666666666668"/>
+                                                                    <color key="tintColor" systemColor="systemGrayColor"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="18" id="c15"/>
                                                                         <constraint firstAttribute="height" constant="18" id="c16"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Country Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="favCellCountry">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="England" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="favCellCountry">
                                                                     <rect key="frame" x="24" y="0.0" width="211" height="17.666666666666668"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -192,7 +384,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="favCellChevron">
-                                                    <rect key="frame" x="333" y="32" width="12" height="16"/>
+                                                    <rect key="frame" x="333" y="30" width="12" height="20"/>
                                                     <color key="tintColor" systemColor="systemGray3Color"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="12" id="c17"/>
@@ -234,6 +426,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Favorite" id="favTitle"/>
+                    <connections>
+                        <outlet property="searchBar" destination="favSearch" id="outFavSearch"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="favVCPlaceholder" sceneMemberID="firstResponder"/>
             </objects>
@@ -248,9 +443,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="leagueHeader">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="60"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search Leagues" translatesAutoresizingMaskIntoConstraints="NO" id="leagueSearch">
+                                    <rect key="frame" x="8" y="2" width="377" height="56"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </searchBar>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="leagueSearch" secondAttribute="trailing" constant="8" id="hls1"/>
+                                <constraint firstItem="leagueSearch" firstAttribute="leading" secondItem="leagueHeader" secondAttribute="leading" constant="8" id="hls2"/>
+                                <constraint firstItem="leagueSearch" firstAttribute="centerY" secondItem="leagueHeader" secondAttribute="centerY" id="hls3"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="LeagueTableViewCell" rowHeight="96" id="leagueCell" customClass="LeagueTableViewCell" customModule="sportacus" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="50" width="393" height="96"/>
+                                <rect key="frame" x="0.0" y="110" width="393" height="96"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="leagueCell" id="leagueCellContent">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="96"/>
@@ -259,8 +470,9 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="leagueCardView">
                                             <rect key="frame" x="16" y="8" width="361" height="80"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="leagueCellBadge">
-                                                    <rect key="frame" x="16" y="15" width="50" height="50"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="trophy.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="leagueCellBadge">
+                                                    <rect key="frame" x="16" y="16" width="50" height="48.666666666666671"/>
+                                                    <color key="tintColor" systemColor="systemGreenColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="c30"/>
                                                         <constraint firstAttribute="height" constant="50" id="c31"/>
@@ -269,7 +481,7 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="leagueTextStack">
                                                     <rect key="frame" x="82" y="18" width="235" height="44"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="League Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="leagueCellName">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="English Premier League" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="leagueCellName">
                                                             <rect key="frame" x="0.0" y="0.0" width="235" height="20.333333333333332"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -278,14 +490,15 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="leagueCountryStack">
                                                             <rect key="frame" x="0.0" y="26.333333333333336" width="235" height="17.666666666666664"/>
                                                             <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="leagueCellFlag">
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="globe" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="leagueCellFlag">
                                                                     <rect key="frame" x="0.0" y="0.0" width="18" height="17.666666666666668"/>
+                                                                    <color key="tintColor" systemColor="systemGrayColor"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="18" id="c32"/>
                                                                         <constraint firstAttribute="height" constant="18" id="c33"/>
                                                                     </constraints>
                                                                 </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Country Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="leagueCellCountry">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="England" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="leagueCellCountry">
                                                                     <rect key="frame" x="24" y="0.0" width="211" height="17.666666666666668"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -296,7 +509,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="leagueCellChevron">
-                                                    <rect key="frame" x="333" y="32" width="12" height="16"/>
+                                                    <rect key="frame" x="333" y="30" width="12" height="20"/>
                                                     <color key="tintColor" systemColor="systemGray3Color"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="12" id="c34"/>
@@ -337,6 +550,9 @@
                             <outlet property="delegate" destination="leaguesVC" id="conn6"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="searchBar" destination="leagueSearch" id="outLeagueSearch"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="leaguesVCPlaceholder" sceneMemberID="firstResponder"/>
             </objects>
@@ -344,16 +560,29 @@
         </scene>
     </scenes>
     <resources>
+        <image name="basketball_bg" width="128" height="128"/>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
+        <image name="cricket_bg" width="128" height="128"/>
+        <image name="football_bg" width="128" height="128"/>
+        <image name="globe" catalog="system" width="128" height="123"/>
         <image name="heart" catalog="system" width="128" height="107"/>
         <image name="heart.fill" catalog="system" width="128" height="107"/>
+        <image name="screen_bg" width="128" height="128"/>
         <image name="sportscourt" catalog="system" width="128" height="83"/>
         <image name="sportscourt.fill" catalog="system" width="128" height="83"/>
+        <image name="tennis_bg" width="128" height="128"/>
+        <image name="trophy.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray3Color">
             <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

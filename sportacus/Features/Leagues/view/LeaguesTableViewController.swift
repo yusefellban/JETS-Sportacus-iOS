@@ -2,7 +2,7 @@
 //  LeaguesTableViewController.swift
 //  sportacus
 //
-//  Created by Noureldeen on 02/06/2026.
+//  Created by Noureldeen on 03/06/2026.
 //
 
 import UIKit
@@ -11,13 +11,7 @@ class LeaguesTableViewController: UITableViewController, LeaguesViewProtocol, UI
     
     var presenter: LeaguesPresenterProtocol?
     
-    private let searchBar: UISearchBar = {
-        let sb = UISearchBar()
-        sb.placeholder = "Search Leagues"
-        sb.searchBarStyle = .minimal
-        sb.backgroundColor = .clear
-        return sb
-    }()
+    @IBOutlet weak var searchBar: UISearchBar!
     
     private let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
@@ -32,8 +26,9 @@ class LeaguesTableViewController: UITableViewController, LeaguesViewProtocol, UI
         title = "Leagues"
         
         setupTableView()
-        setupSearchBar()
         setupLoadingIndicator()
+        
+        searchBar.delegate = self
         
         // Notify presenter to load data
         presenter?.viewDidLoad()
@@ -43,17 +38,6 @@ class LeaguesTableViewController: UITableViewController, LeaguesViewProtocol, UI
         // Soft gray background color for a premium look under Light Mode
         tableView.backgroundColor = UIColor(red: 247/255, green: 248/255, blue: 250/255, alpha: 1.0)
         tableView.separatorStyle = .none
-    }
-    
-    private func setupSearchBar() {
-        searchBar.delegate = self
-        
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 60))
-        searchBar.frame = CGRect(x: 8, y: 0, width: view.bounds.width - 16, height: 60)
-        searchBar.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        headerView.addSubview(searchBar)
-        
-        tableView.tableHeaderView = headerView
     }
     
     private func setupLoadingIndicator() {
