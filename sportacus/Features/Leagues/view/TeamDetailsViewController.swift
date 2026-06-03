@@ -2,7 +2,9 @@ import UIKit
 
 class TeamDetailsViewController: UIViewController {
     
-    private let team: Team
+    // team is set either via the designated init (programmatic push)
+    // or via the `configure(with:)` method when loaded from storyboard.
+    private var team: Team = Team(teamName: "", logoName: "")
     
     // UI Elements
     private let logoImageView: UIImageView = {
@@ -55,7 +57,12 @@ class TeamDetailsViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+    }
+    
+    /// Call this when instantiating from storyboard before viewDidLoad.
+    func configure(with team: Team) {
+        self.team = team
     }
     
     override func viewDidLoad() {
