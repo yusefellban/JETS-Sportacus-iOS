@@ -5,6 +5,7 @@ protocol LeaguesViewProtocol: AnyObject {
     func hideLoading()
     func displayLeagues(_ leagues: [League])
     func showError(_ message: String)
+    func navigateToLeagueDetails(for league: League)
 }
 
 protocol LeaguesPresenterProtocol: AnyObject {
