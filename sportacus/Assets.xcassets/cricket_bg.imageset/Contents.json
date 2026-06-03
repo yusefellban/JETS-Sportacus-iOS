@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "cricket_bg.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
