@@ -25,6 +25,14 @@ class ThirdOnboardingViewController: UIViewController {
     
 
     @IBAction func getStartedAction(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarController")
+        
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else { return }
+        
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
     }
 
 }
