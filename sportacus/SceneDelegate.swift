@@ -20,38 +20,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // Load root view controller from Storyboard
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let tabBarController = storyboard.instantiateInitialViewController() as? UITabBarController else {
+
+        guard let onboardingVC = storyboard.instantiateViewController(
+            withIdentifier: "OnboardingPageViewController"
+        ) as? OnboardingPageViewController else {
             window.makeKeyAndVisible()
             return
         }
-        
-        // Wire up Sports presenter
-        if let sportsNav = tabBarController.viewControllers?[0] as? UINavigationController,
-           let sportsVC = sportsNav.topViewController as? SportsViewController {
-            let presenter = SportsPresenter(view: sportsVC)
-            sportsVC.presenter = presenter
-        }
-        
-        // Wire up Favorites presenter
-        if let favNav = tabBarController.viewControllers?[1] as? UINavigationController,
-           let favVC = favNav.topViewController as? FavoritesTableViewController {
-            let presenter = FavoritesPresenter(view: favVC)
-            favVC.presenter = presenter
-        }
-        
-        // Customize tab bar appearance
-        let appearance = UITabBarAppearance()
-        appearance.configureWithDefaultBackground()
-        appearance.backgroundColor = UIColor(named: "DeepForestNight") ?? .systemBackground
-        
-        tabBarController.tabBar.standardAppearance = appearance
-        if #available(iOS 15.0, *) {
-            tabBarController.tabBar.scrollEdgeAppearance = appearance
-        }
-        tabBarController.tabBar.tintColor = UIColor(named: "LimeNeon") ?? .systemGreen
-        tabBarController.tabBar.unselectedItemTintColor = .lightGray
-        
-        window.rootViewController = tabBarController
+
+        window.rootViewController = onboardingVC
         window.makeKeyAndVisible()
     }
 
