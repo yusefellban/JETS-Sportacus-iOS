@@ -69,10 +69,12 @@ class LeaguesTableViewController: UITableViewController, LeaguesViewProtocol, UI
     }
     
     func navigateToLeagueDetails(for league: League) {
-        let detailsVC = LeagueDetailsViewController()
-        let detailsPresenter = LeagueDetailsPresenter(view: detailsVC, league: league)
-        detailsVC.presenter = detailsPresenter
-        navigationController?.pushViewController(detailsVC, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let detailsVC = storyboard.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as? LeagueDetailsViewController {
+            let detailsPresenter = LeagueDetailsPresenter(view: detailsVC, league: league)
+            detailsVC.presenter = detailsPresenter
+            navigationController?.pushViewController(detailsVC, animated: true)
+        }
     }
     
     // MARK: - UISearchBarDelegate
