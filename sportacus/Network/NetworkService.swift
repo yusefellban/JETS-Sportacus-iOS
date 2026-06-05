@@ -48,4 +48,42 @@ class NetworkService {
         }
         task.resume()
     }
+    
+    func fetchEvents(for sport: Sport, leagueId: Int64, from: String, to: String, completion: @escaping (Result<[APIEvent], Error>) -> Void) {
+        let urlString = "\(APIConstants.baseUrl)/\(sport.rawValue)/?met=Fixtures&leagueId=\(leagueId)&from=\(from)&to=\(to)&APIkey=\(APIConstants.apiKey)"
+        
+        guard let url = URL(string: urlString) else {
+            let error = NSError(domain: "NetworkService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL structure"])
+            completion(.failure(error))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                let error = NSError(domain: "NetworkService", code: -2, userInfo: [NSLocalizedDescriptionKey: "No data received from API"])
+                completion(.failure(error))
+                return
+            }
+            
+            do {
+                let responseObj = try JSONDecoder().decode(EventResponse.self, from: data)
+                if responseObj.success == 1 {
+                    let events = responseObj.result ?? []
+                    completion(.success(events))
+                } else {
+                    // AllSportsAPI returns success = 0 if there are no events in the given range.
+                    // This is not necessarily a hard network failure, so we can return an empty array.
+                    completion(.success([]))
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
 }
