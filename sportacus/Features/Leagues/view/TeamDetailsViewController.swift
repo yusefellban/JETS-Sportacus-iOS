@@ -3,7 +3,7 @@ import UIKit
 class TeamDetailsViewController: UIViewController {
     
     // team is set via `configure(with:)` before the view loads
-    private var team: Team = Team(teamName: "", logoName: "")
+    private var team: Team = Team(teamKey: 0, teamName: "", logoName: "", playersCount: 0, coachName: nil)
     
     // MARK: - IBOutlets
     @IBOutlet weak var logoImageView: UIImageView!
@@ -45,18 +45,22 @@ class TeamDetailsViewController: UIViewController {
     private func configureViews() {
         nameLabel.text = team.teamName
         
-        if let image = UIImage(named: team.logoName) {
-            logoImageView.image = image
-        } else if let sysImage = UIImage(systemName: team.logoName) {
-            logoImageView.image = sysImage
-        } else {
-            logoImageView.image = UIImage(systemName: "shield.fill")
-        }
+        let placeholder = UIImage(systemName: "shield.fill")
+        logoImageView.loadImage(from: team.logoName, placeholder: placeholder)
+        
+        // Clear old mock views
+        infoStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         addInfoRow(title: "⚽ Type", value: "Football Club")
-        addInfoRow(title: "📅 Founded", value: "1905 (Mocked)")
-        addInfoRow(title: "🏟️ Stadium", value: "Championship Ground")
-        addInfoRow(title: "📍 Location", value: "Europe / Local")
+        
+        if let coach = team.coachName, !coach.isEmpty {
+            addInfoRow(title: "👨‍💼 Coach", value: coach)
+        } else {
+            addInfoRow(title: "👨‍💼 Coach", value: "Unknown")
+        }
+        
+        addInfoRow(title: "👥 Players", value: "\(team.playersCount > 0 ? "\(team.playersCount)" : "N/A")")
+        addInfoRow(title: "🔑 Team ID", value: "\(team.teamKey)")
     }
     
     private func addInfoRow(title: String, value: String) {

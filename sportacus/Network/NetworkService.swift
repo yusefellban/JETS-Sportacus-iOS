@@ -135,11 +135,15 @@ struct APITeam: Codable {
     let teamKey: Int64
     let teamName: String
     let teamLogo: String?
+    let players: [APIPlayer]?
+    let coaches: [APICoach]?
     
     enum CodingKeys: String, CodingKey {
         case teamKey = "team_key"
         case teamName = "team_name"
         case teamLogo = "team_logo"
+        case players = "players"
+        case coaches = "coaches"
     }
     
     init(from decoder: Decoder) throws {
@@ -158,6 +162,8 @@ struct APITeam: Codable {
         
         teamName = (try? container.decode(String.self, forKey: .teamName)) ?? "Unknown Team"
         teamLogo = try? container.decodeIfPresent(String.self, forKey: .teamLogo)
+        players = try? container.decodeIfPresent([APIPlayer].self, forKey: .players)
+        coaches = try? container.decodeIfPresent([APICoach].self, forKey: .coaches)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -165,5 +171,25 @@ struct APITeam: Codable {
         try container.encode(teamKey, forKey: .teamKey)
         try container.encode(teamName, forKey: .teamName)
         try container.encode(teamLogo, forKey: .teamLogo)
+        try container.encode(players, forKey: .players)
+        try container.encode(coaches, forKey: .coaches)
+    }
+}
+
+struct APIPlayer: Codable {
+    let playerName: String?
+    let playerType: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case playerName = "player_name"
+        case playerType = "player_type"
+    }
+}
+
+struct APICoach: Codable {
+    let coachName: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case coachName = "coach_name"
     }
 }

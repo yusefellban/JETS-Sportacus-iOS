@@ -21,8 +21,11 @@ struct LatestEvent {
 }
 
 struct Team {
+    let teamKey: Int64
     let teamName: String
     let logoName: String
+    let playersCount: Int
+    let coachName: String?
 }
 
 // MARK: - MVP Protocols

@@ -109,7 +109,13 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
             switch result {
             case .success(let apiTeams):
                 fetchedTeams = apiTeams.map { apiTeam in
-                    Team(teamName: apiTeam.teamName, logoName: apiTeam.teamLogo ?? "")
+                    Team(
+                        teamKey: apiTeam.teamKey,
+                        teamName: apiTeam.teamName,
+                        logoName: apiTeam.teamLogo ?? "",
+                        playersCount: apiTeam.players?.count ?? 0,
+                        coachName: apiTeam.coaches?.first?.coachName
+                    )
                 }
             case .failure(let error):
                 print("Error fetching teams: \(error.localizedDescription)")
