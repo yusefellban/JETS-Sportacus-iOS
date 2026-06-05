@@ -123,7 +123,7 @@ class SportsViewController: UIViewController, SportsViewProtocol {
     func navigateToLeagues(for sport: Sport) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let leaguesVC = storyboard.instantiateViewController(withIdentifier: "LeaguesTableViewController") as? LeaguesTableViewController else { return }
-        let leaguesPresenter = LeaguesPresenter(view: leaguesVC)
+        let leaguesPresenter = LeaguesPresenter(view: leaguesVC, sport: sport)
         leaguesVC.presenter = leaguesPresenter
         navigationController?.pushViewController(leaguesVC, animated: true)
     }

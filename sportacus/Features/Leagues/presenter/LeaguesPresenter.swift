@@ -12,28 +12,30 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
     
     private var allLeagues: [League] = []
     private var filteredLeagues: [League] = []
+    private let sport: Sport
     
-    init(view: LeaguesViewProtocol) {
+    init(view: LeaguesViewProtocol, sport: Sport) {
         self.view = view
+        self.sport = sport
     }
     
     func viewDidLoad() {
         view?.showLoading()
         
-        // Populate dummy data based on user image categories
-        allLeagues = [
-            League(leagueKey: 1, leagueName: "UEFA Nations League", leagueLogo: "uefa_nations_league", countryName: "Eurocups"),
-            League(leagueKey: 2, leagueName: "World Cup", leagueLogo: "world_cup", countryName: "Worldcup"),
-            League(leagueKey: 3, leagueName: "Premier League", leagueLogo: "premier_league", countryName: "England"),
-            League(leagueKey: 4, leagueName: "Primera", leagueLogo: "la_liga", countryName: "Spain"),
-            League(leagueKey: 5, leagueName: "Serie A", leagueLogo: "serie_a", countryName: "Italy"),
-            League(leagueKey: 6, leagueName: "Bundesliga", leagueLogo: "bundesliga", countryName: "Germany")
-        ]
-        
-        filteredLeagues = allLeagues
-        
-        view?.hideLoading()
-        view?.displayLeagues(filteredLeagues)
+        NetworkService.shared.fetchLeagues(for: sport) { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.view?.hideLoading()
+                switch result {
+                case .success(let leagues):
+                    self.allLeagues = leagues
+                    self.filteredLeagues = leagues
+                    self.view?.displayLeagues(self.filteredLeagues)
+                case .failure(let error):
+                    self.view?.showError(error.localizedDescription)
+                }
+            }
+        }
     }
     
     func searchLeagues(with query: String) {

@@ -58,12 +58,9 @@ class LeagueTableViewCell: UITableViewCell {
         nameLabel.text = league.leagueName
         countryLabel.text = league.countryName
         
-        if let logoName = league.leagueLogo, let logoImage = UIImage(named: logoName) {
-            badgeImageView.image = logoImage
-        } else {
-            badgeImageView.image = UIImage(systemName: "trophy.circle.fill")
-            badgeImageView.tintColor = UIColor(named: "LimeNeon") ?? .systemGreen
-        }
+        let placeholder = UIImage(systemName: "trophy.circle.fill")
+        badgeImageView.tintColor = UIColor(named: "LimeNeon") ?? .systemGreen
+        badgeImageView.loadImage(from: league.leagueLogo, placeholder: placeholder)
         
         flagImageView.image = UIImage(systemName: "globe")
         flagImageView.tintColor = .systemGray2
