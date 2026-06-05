@@ -43,6 +43,8 @@
 		FAF781CAD1094887A012AD39 /* LeaguesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ECD63E17EF0CFE9F0DE9D1 /* LeaguesPresenter.swift */; };
 		5452B51F599444DE81ACDEAA /* LeaguesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7485CABB824BE5B5538FBB /* LeaguesResponse.swift */; };
 		8338F076A745419182871515 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755BC499FB5241A1B9D0BCA7 /* APIConstants.swift */; };
+		0952C9D7F7FF4322B7A0F576 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD432DC0E414950A320819D /* NetworkService.swift */; };
+		1C5BBCF590474551AE4F17C1 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58406886CB95424AB58EDDD2 /* UIImageView+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +105,8 @@
 		F65306C92A615EF69E80B96C /* LeagueDetailsViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LeagueDetailsViewController.swift; sourceTree = "<group>"; };
 		1A7485CABB824BE5B5538FBB /* LeaguesResponse.swift */ = {isa = PBXFileReference; name = "LeaguesResponse.swift"; path = "sportacus/Model/Entities/League/LeaguesResponse.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
 		755BC499FB5241A1B9D0BCA7 /* APIConstants.swift */ = {isa = PBXFileReference; name = "APIConstants.swift"; path = "sportacus/Utils/APIConstants.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
+		7AD432DC0E414950A320819D /* NetworkService.swift */ = {isa = PBXFileReference; name = "NetworkService.swift"; path = "sportacus/Network/NetworkService.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
+		58406886CB95424AB58EDDD2 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; name = "UIImageView+Extension.swift"; path = "sportacus/Utils/Extensions/UIImageView+Extension.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +206,7 @@
 			children = (
 				DE63976DFDDA1C33698D9EBE /* Enums */,
 				755BC499FB5241A1B9D0BCA7 /* APIConstants.swift */,
+				96E5BC3C763F4F899687A4B9 /* Extensions */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -284,6 +289,7 @@
 				3B9AD05DD9EB6BA7A8C277D7 /* Features */,
 				92BA21D2A885763DB57CFB8A /* Utils */,
 				E18ECF2E22D9A80BE792AF3C /* Model */,
+				C779A45CDFAF412986368964 /* Network */,
 			);
 			path = sportacus;
 			sourceTree = "<group>";
@@ -343,6 +349,22 @@
 			);
 			path = presenter;
 			sourceTree = "<group>";
+		};
+		C779A45CDFAF412986368964 = {
+			isa = PBXGroup;
+			children = (
+				7AD432DC0E414950A320819D /* NetworkService.swift */,
+			);
+			name = Network;
+			sourceTree = <group>;
+		};
+		96E5BC3C763F4F899687A4B9 = {
+			isa = PBXGroup;
+			children = (
+				58406886CB95424AB58EDDD2 /* UIImageView+Extension.swift */,
+			);
+			name = Extensions;
+			sourceTree = <group>;
 		};
 /* End PBXGroup section */
 
@@ -505,6 +527,8 @@
 				16FC21E169F2942441402EDE /* League.swift in Sources */,
 				5452B51F599444DE81ACDEAA /* LeaguesResponse.swift in Sources */,
 				8338F076A745419182871515 /* APIConstants.swift in Sources */,
+				0952C9D7F7FF4322B7A0F576 /* NetworkService.swift in Sources */,
+				1C5BBCF590474551AE4F17C1 /* UIImageView+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
