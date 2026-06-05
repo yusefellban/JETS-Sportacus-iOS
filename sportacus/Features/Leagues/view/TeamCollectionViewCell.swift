@@ -54,12 +54,7 @@ class TeamCollectionViewCell: UICollectionViewCell {
     func configure(with team: Team) {
         teamNameLabel.text = team.teamName
         
-        if let image = UIImage(named: team.logoName) {
-            teamLogoImageView.image = image
-        } else if let sysImage = UIImage(systemName: team.logoName) {
-            teamLogoImageView.image = sysImage
-        } else {
-            teamLogoImageView.image = UIImage(systemName: "shield.fill")
-        }
+        let placeholder = UIImage(systemName: "shield.fill")
+        teamLogoImageView.loadImage(from: team.logoName, placeholder: placeholder)
     }
 }

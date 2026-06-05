@@ -21,9 +21,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
         view?.displayLeagueName(league.leagueName)
         view?.showFavoriteState(isFavorite: isFavorite)
         
-        // We keep mock teams setup as teams fetching is excluded for now
-        setupMockTeamsOnly()
-        view?.displayTeams(teams)
+        // Teams will be fetched via API
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -45,6 +43,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
         
         var fetchedUpcoming: [UpcomingEvent] = []
         var fetchedLatest: [LatestEvent] = []
+        var fetchedTeams: [Team] = []
         
         // 1. Fetch Upcoming Events
         dispatchGroup.enter()
@@ -104,13 +103,29 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
             dispatchGroup.leave()
         }
         
+        // 3. Fetch Teams
+        dispatchGroup.enter()
+        NetworkService.shared.fetchTeams(for: sport, leagueId: league.leagueKey) { result in
+            switch result {
+            case .success(let apiTeams):
+                fetchedTeams = apiTeams.map { apiTeam in
+                    Team(teamName: apiTeam.teamName, logoName: apiTeam.teamLogo ?? "")
+                }
+            case .failure(let error):
+                print("Error fetching teams: \(error.localizedDescription)")
+            }
+            dispatchGroup.leave()
+        }
+        
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
             self.upcomingEvents = fetchedUpcoming
             self.latestEvents = fetchedLatest
+            self.teams = fetchedTeams
             
             self.view?.displayUpcomingEvents(self.upcomingEvents)
             self.view?.displayLatestEvents(self.latestEvents)
+            self.view?.displayTeams(self.teams)
             self.view?.hideLoading()
         }
     }
@@ -126,29 +141,5 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
         print("Selected team: \(selectedTeam.teamName)")
     }
     
-    private func setupMockTeamsOnly() {
-        var teamNames: [String] = []
-        switch league.leagueName.lowercased() {
-        case let name where name.contains("premier"):
-            teamNames = ["Arsenal", "Chelsea", "Liverpool", "Man City", "Man United", "Tottenham", "Aston Villa", "Newcastle"]
-        case let name where name.contains("primera") || name.contains("liga"):
-            teamNames = ["Real Madrid", "Barcelona", "Atletico Madrid", "Sevilla", "Real Sociedad", "Villarreal", "Real Betis", "Valencia"]
-        case let name where name.contains("serie"):
-            teamNames = ["Juventus", "AC Milan", "Inter Milan", "Napoli", "Roma", "Lazio", "Atalanta", "Fiorentina"]
-        case let name where name.contains("bundesliga"):
-            teamNames = ["Bayern Munich", "Dortmund", "Leverkusen", "Leipzig", "Frankfurt", "Freiburg", "Monchengladbach", "Wolfsburg"]
-        default:
-            teamNames = ["Team Alpha", "Team Beta", "Team Gamma", "Team Delta", "Team Epsilon", "Team Zeta", "Team Eta", "Team Theta"]
-        }
-        
-        let sfSymbolIcons = [
-            "shield.fill", "hexagon.fill", "suit.club.fill", "rhombus.fill",
-            "triangle.fill", "circle.fill", "seal.fill", "star.fill"
-        ]
-        
-        teams = teamNames.enumerated().map { index, name in
-            let icon = sfSymbolIcons[index % sfSymbolIcons.count]
-            return Team(teamName: name, logoName: icon)
-        }
-    }
+
 }
