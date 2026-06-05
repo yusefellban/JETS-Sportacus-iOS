@@ -41,6 +41,8 @@
 		DCB5D51F2FCEF0D300540247 /* sportacusUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB5D51E2FCEF0D300540247 /* sportacusUITestsLaunchTests.swift */; };
 		EE6C3B87C2B8EC22DCCD7269 /* SportsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DD09A156C442995A003608 /* SportsViewController.swift */; };
 		FAF781CAD1094887A012AD39 /* LeaguesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ECD63E17EF0CFE9F0DE9D1 /* LeaguesPresenter.swift */; };
+		5452B51F599444DE81ACDEAA /* LeaguesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7485CABB824BE5B5538FBB /* LeaguesResponse.swift */; };
+		8338F076A745419182871515 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755BC499FB5241A1B9D0BCA7 /* APIConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +101,8 @@
 		E7A8DD0596C4F358309D9CF2 /* SportsPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SportsPresenter.swift; sourceTree = "<group>"; };
 		F3DD09A156C442995A003608 /* SportsViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SportsViewController.swift; sourceTree = "<group>"; };
 		F65306C92A615EF69E80B96C /* LeagueDetailsViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LeagueDetailsViewController.swift; sourceTree = "<group>"; };
+		1A7485CABB824BE5B5538FBB /* LeaguesResponse.swift */ = {isa = PBXFileReference; name = "LeaguesResponse.swift"; path = "sportacus/Model/Entities/League/LeaguesResponse.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
+		755BC499FB5241A1B9D0BCA7 /* APIConstants.swift */ = {isa = PBXFileReference; name = "APIConstants.swift"; path = "sportacus/Utils/APIConstants.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				CE7D4D9F2190B6D8168E70DA /* League.swift */,
+				1A7485CABB824BE5B5538FBB /* LeaguesResponse.swift */,
 			);
 			path = League;
 			sourceTree = "<group>";
@@ -196,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				DE63976DFDDA1C33698D9EBE /* Enums */,
+				755BC499FB5241A1B9D0BCA7 /* APIConstants.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -497,6 +503,8 @@
 				DC617F0F2FD187FF00ED5CA0 /* FirstOnboardingViewController.swift in Sources */,
 				C5F58B42925A99BFAC7CD2C8 /* Sport.swift in Sources */,
 				16FC21E169F2942441402EDE /* League.swift in Sources */,
+				5452B51F599444DE81ACDEAA /* LeaguesResponse.swift in Sources */,
+				8338F076A745419182871515 /* APIConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
