@@ -68,10 +68,10 @@ class LeaguesTableViewController: UITableViewController, LeaguesViewProtocol, UI
         present(alert, animated: true)
     }
     
-    func navigateToLeagueDetails(for league: League) {
+    func navigateToLeagueDetails(for league: League, sport: Sport) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let detailsVC = storyboard.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as? LeagueDetailsViewController {
-            let detailsPresenter = LeagueDetailsPresenter(view: detailsVC, league: league)
+            let detailsPresenter = LeagueDetailsPresenter(view: detailsVC, league: league, sport: sport)
             detailsVC.presenter = detailsPresenter
             navigationController?.pushViewController(detailsVC, animated: true)
         }

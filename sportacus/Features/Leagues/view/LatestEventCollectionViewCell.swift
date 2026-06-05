@@ -155,21 +155,8 @@ class LatestEventCollectionViewCell: UICollectionViewCell {
         scoreLabel.text = "\(event.homeScore) - \(event.awayScore)"
         dateTimeLabel.text = "📅 \(event.date)   🕒 \(event.time)"
         
-        // Setup image placeholders/symbols
-        if let image = UIImage(named: event.homeTeamLogo) {
-            homeLogoImageView.image = image
-        } else if let sysImage = UIImage(systemName: event.homeTeamLogo) {
-            homeLogoImageView.image = sysImage
-        } else {
-            homeLogoImageView.image = UIImage(systemName: "shield.fill")
-        }
-        
-        if let image = UIImage(named: event.awayTeamLogo) {
-            awayLogoImageView.image = image
-        } else if let sysImage = UIImage(systemName: event.awayTeamLogo) {
-            awayLogoImageView.image = sysImage
-        } else {
-            awayLogoImageView.image = UIImage(systemName: "shield.fill")
-        }
+        let placeholder = UIImage(systemName: "shield.fill")
+        homeLogoImageView.loadImage(from: event.homeTeamLogo, placeholder: placeholder)
+        awayLogoImageView.loadImage(from: event.awayTeamLogo, placeholder: placeholder)
     }
 }

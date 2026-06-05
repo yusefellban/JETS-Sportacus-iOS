@@ -53,7 +53,7 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
     func selectLeague(at index: Int) {
         guard index >= 0 && index < filteredLeagues.count else { return }
         let selectedLeague = filteredLeagues[index]
-        view?.navigateToLeagueDetails(for: selectedLeague)
+        view?.navigateToLeagueDetails(for: selectedLeague, sport: sport)
     }
     
     var numberOfLeagues: Int {

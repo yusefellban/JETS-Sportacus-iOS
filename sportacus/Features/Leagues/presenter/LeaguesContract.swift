@@ -12,7 +12,7 @@ protocol LeaguesViewProtocol: AnyObject {
     func hideLoading()
     func displayLeagues(_ leagues: [League])
     func showError(_ message: String)
-    func navigateToLeagueDetails(for league: League)
+    func navigateToLeagueDetails(for league: League, sport: Sport)
 }
 
 protocol LeaguesPresenterProtocol: AnyObject {

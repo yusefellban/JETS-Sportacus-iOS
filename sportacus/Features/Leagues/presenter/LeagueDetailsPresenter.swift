@@ -3,29 +3,116 @@ import Foundation
 class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
     weak var view: LeagueDetailsViewProtocol?
     let league: League
+    private let sport: Sport
     
     private var upcomingEvents: [UpcomingEvent] = []
     private var latestEvents: [LatestEvent] = []
     private var teams: [Team] = []
     private var isFavorite: Bool = false
     
-    init(view: LeagueDetailsViewProtocol, league: League) {
+    init(view: LeagueDetailsViewProtocol, league: League, sport: Sport) {
         self.view = view
         self.league = league
+        self.sport = sport
     }
     
     func viewDidLoad() {
         view?.showLoading()
         view?.displayLeagueName(league.leagueName)
-        
-        // Mock data setup based on the selected league
-        setupMockData()
-        
-        view?.displayUpcomingEvents(upcomingEvents)
-        view?.displayLatestEvents(latestEvents)
-        view?.displayTeams(teams)
         view?.showFavoriteState(isFavorite: isFavorite)
-        view?.hideLoading()
+        
+        // We keep mock teams setup as teams fetching is excluded for now
+        setupMockTeamsOnly()
+        view?.displayTeams(teams)
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        let today = Date()
+        let calendar = Calendar.current
+        
+        guard let thirtyDaysFuture = calendar.date(byAdding: .day, value: 30, to: today),
+              let thirtyDaysPast = calendar.date(byAdding: .day, value: -30, to: today) else {
+            view?.hideLoading()
+            return
+        }
+        
+        let todayStr = formatter.string(from: today)
+        let futureStr = formatter.string(from: thirtyDaysFuture)
+        let pastStr = formatter.string(from: thirtyDaysPast)
+        
+        let dispatchGroup = DispatchGroup()
+        
+        var fetchedUpcoming: [UpcomingEvent] = []
+        var fetchedLatest: [LatestEvent] = []
+        
+        // 1. Fetch Upcoming Events
+        dispatchGroup.enter()
+        NetworkService.shared.fetchEvents(for: sport, leagueId: league.leagueKey, from: todayStr, to: futureStr) { result in
+            switch result {
+            case .success(let apiEvents):
+                fetchedUpcoming = apiEvents.map { apiEvent in
+                    UpcomingEvent(
+                        eventName: "\(apiEvent.eventHomeTeam) vs \(apiEvent.eventAwayTeam)",
+                        date: apiEvent.eventDate,
+                        time: apiEvent.eventTime,
+                        homeTeamLogo: apiEvent.homeTeamLogo ?? "",
+                        awayTeamLogo: apiEvent.awayTeamLogo ?? ""
+                    )
+                }
+            case .failure(let error):
+                print("Error fetching upcoming events: \(error.localizedDescription)")
+            }
+            dispatchGroup.leave()
+        }
+        
+        // 2. Fetch Latest Events
+        dispatchGroup.enter()
+        NetworkService.shared.fetchEvents(for: sport, leagueId: league.leagueKey, from: pastStr, to: todayStr) { result in
+            switch result {
+            case .success(let apiEvents):
+                fetchedLatest = apiEvents.map { apiEvent in
+                    var homeScore = "-"
+                    var awayScore = "-"
+                    if let resultStr = apiEvent.eventFinalResult {
+                        let parts = resultStr.components(separatedBy: " - ")
+                        if parts.count == 2 {
+                            homeScore = parts[0].trimmingCharacters(in: .whitespacesAndNewlines)
+                            awayScore = parts[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                        } else {
+                            let partsAlt = resultStr.components(separatedBy: "-")
+                            if partsAlt.count == 2 {
+                                homeScore = partsAlt[0].trimmingCharacters(in: .whitespacesAndNewlines)
+                                awayScore = partsAlt[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                            }
+                        }
+                    }
+                    return LatestEvent(
+                        homeTeamName: apiEvent.eventHomeTeam,
+                        awayTeamName: apiEvent.eventAwayTeam,
+                        homeScore: homeScore,
+                        awayScore: awayScore,
+                        date: apiEvent.eventDate,
+                        time: apiEvent.eventTime,
+                        homeTeamLogo: apiEvent.homeTeamLogo ?? "",
+                        awayTeamLogo: apiEvent.awayTeamLogo ?? ""
+                    )
+                }
+            case .failure(let error):
+                print("Error fetching latest events: \(error.localizedDescription)")
+            }
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
+            self.upcomingEvents = fetchedUpcoming
+            self.latestEvents = fetchedLatest
+            
+            self.view?.displayUpcomingEvents(self.upcomingEvents)
+            self.view?.displayLatestEvents(self.latestEvents)
+            self.view?.hideLoading()
+        }
     }
     
     func toggleFavorite() {
@@ -39,8 +126,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
         print("Selected team: \(selectedTeam.teamName)")
     }
     
-    private func setupMockData() {
-        // Define team names based on league
+    private func setupMockTeamsOnly() {
         var teamNames: [String] = []
         switch league.leagueName.lowercased() {
         case let name where name.contains("premier"):
@@ -55,92 +141,14 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
             teamNames = ["Team Alpha", "Team Beta", "Team Gamma", "Team Delta", "Team Epsilon", "Team Zeta", "Team Eta", "Team Theta"]
         }
         
-        // Team logos using SF symbols for a beautiful look without relying on asset files
         let sfSymbolIcons = [
             "shield.fill", "hexagon.fill", "suit.club.fill", "rhombus.fill",
             "triangle.fill", "circle.fill", "seal.fill", "star.fill"
         ]
         
-        // Populate Teams
         teams = teamNames.enumerated().map { index, name in
             let icon = sfSymbolIcons[index % sfSymbolIcons.count]
             return Team(teamName: name, logoName: icon)
         }
-        
-        // Populate Upcoming Events
-        upcomingEvents = [
-            UpcomingEvent(
-                eventName: "\(teams[0].teamName) vs \(teams[1].teamName)",
-                date: "2026-06-12",
-                time: "20:00",
-                homeTeamLogo: teams[0].logoName,
-                awayTeamLogo: teams[1].logoName
-            ),
-            UpcomingEvent(
-                eventName: "\(teams[2].teamName) vs \(teams[3].teamName)",
-                date: "2026-06-15",
-                time: "18:30",
-                homeTeamLogo: teams[2].logoName,
-                awayTeamLogo: teams[3].logoName
-            ),
-            UpcomingEvent(
-                eventName: "\(teams[4].teamName) vs \(teams[5].teamName)",
-                date: "2026-06-18",
-                time: "21:00",
-                homeTeamLogo: teams[4].logoName,
-                awayTeamLogo: teams[5].logoName
-            ),
-            UpcomingEvent(
-                eventName: "\(teams[6].teamName) vs \(teams[7].teamName)",
-                date: "2026-06-20",
-                time: "16:00",
-                homeTeamLogo: teams[6].logoName,
-                awayTeamLogo: teams[7].logoName
-            )
-        ]
-        
-        // Populate Latest Events
-        latestEvents = [
-            LatestEvent(
-                homeTeamName: teams[1].teamName,
-                awayTeamName: teams[2].teamName,
-                homeScore: "2",
-                awayScore: "1",
-                date: "2026-05-30",
-                time: "17:30",
-                homeTeamLogo: teams[1].logoName,
-                awayTeamLogo: teams[2].logoName
-            ),
-            LatestEvent(
-                homeTeamName: teams[3].teamName,
-                awayTeamName: teams[0].teamName,
-                homeScore: "0",
-                awayScore: "3",
-                date: "2026-05-28",
-                time: "21:00",
-                homeTeamLogo: teams[3].logoName,
-                awayTeamLogo: teams[0].logoName
-            ),
-            LatestEvent(
-                homeTeamName: teams[5].teamName,
-                awayTeamName: teams[4].teamName,
-                homeScore: "2",
-                awayScore: "2",
-                date: "2026-05-25",
-                time: "19:00",
-                homeTeamLogo: teams[5].logoName,
-                awayTeamLogo: teams[4].logoName
-            ),
-            LatestEvent(
-                homeTeamName: teams[7].teamName,
-                awayTeamName: teams[6].teamName,
-                homeScore: "1",
-                awayScore: "0",
-                date: "2026-05-22",
-                time: "15:00",
-                homeTeamLogo: teams[7].logoName,
-                awayTeamLogo: teams[6].logoName
-            )
-        ]
     }
 }
