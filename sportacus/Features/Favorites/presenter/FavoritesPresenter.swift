@@ -53,6 +53,21 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
     func favorite(at index: Int) -> League {
         return filteredFavorites[index]
     }
+    
+    func selectFavorite(at index: Int) {
+        guard index >= 0 && index < filteredFavorites.count else { return }
+        
+        if NetworkMonitor.shared.isConnected {
+            let league = filteredFavorites[index]
+            // Get sportName from CoreData to reconstruct Sport enum
+            let favourites = CoreDataManager.shared.fetchAllFavourites()
+            let sportName = favourites.first(where: { $0.leagueKey == league.leagueKey })?.sportName ?? "football"
+            let sport = Sport(rawValue: sportName) ?? .football
+            view?.navigateToLeagueDetails(for: league, sport: sport)
+        } else {
+            view?.showNoInternetAlert()
+        }
+    }
 }
 
 // MARK: - FavoritesManager CoreData-Backed Singleton

@@ -51,7 +51,25 @@ class LeagueDetailsViewController: UIViewController, LeagueDetailsViewProtocol, 
     
     // MARK: - Action Selectors
     @objc private func favoriteButtonTapped() {
-        presenter?.toggleFavorite()
+        guard let isFav = presenter?.isFavorite else {
+            presenter?.toggleFavorite()
+            return
+        }
+        
+        if isFav {
+            let alert = UIAlertController(
+                title: "Remove from Favorites",
+                message: "Are you sure you want to remove this league from your favorites?",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Remove", style: .destructive) { [weak self] _ in
+                self?.presenter?.toggleFavorite()
+            })
+            present(alert, animated: true)
+        } else {
+            presenter?.toggleFavorite()
+        }
     }
     
     // MARK: - LeagueDetailsViewProtocol

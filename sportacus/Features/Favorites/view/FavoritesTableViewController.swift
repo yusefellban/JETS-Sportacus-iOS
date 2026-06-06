@@ -127,4 +127,30 @@ class FavoritesTableViewController: UITableViewController, FavoritesViewProtocol
         
         present(alert, animated: true)
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        presenter?.selectFavorite(at: indexPath.row)
+    }
+    
+    // MARK: - Navigation
+    
+    func navigateToLeagueDetails(for league: League, sport: Sport) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let detailsVC = storyboard.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as? LeagueDetailsViewController {
+            let detailsPresenter = LeagueDetailsPresenter(view: detailsVC, league: league, sport: sport)
+            detailsVC.presenter = detailsPresenter
+            navigationController?.pushViewController(detailsVC, animated: true)
+        }
+    }
+    
+    func showNoInternetAlert() {
+        let alert = UIAlertController(
+            title: "No Internet Connection",
+            message: "Please check your internet connection and try again.",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
 }

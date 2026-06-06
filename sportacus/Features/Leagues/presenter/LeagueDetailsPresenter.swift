@@ -8,7 +8,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
     private var upcomingEvents: [UpcomingEvent] = []
     private var latestEvents: [LatestEvent] = []
     private var teams: [Team] = []
-    private var isFavorite: Bool = false
+    private(set) var isFavorite: Bool = false
     
     init(view: LeagueDetailsViewProtocol, league: League, sport: Sport) {
         self.view = view
