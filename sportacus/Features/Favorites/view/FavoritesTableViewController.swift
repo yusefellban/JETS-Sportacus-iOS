@@ -34,6 +34,12 @@ class FavoritesTableViewController: UITableViewController, FavoritesViewProtocol
         presenter?.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Reload favorites from CoreData every time the tab appears
+        presenter?.viewDidLoad()
+    }
+    
     private func setupTableView() {
         tableView.backgroundColor = UIColor(red: 247/255, green: 248/255, blue: 250/255, alpha: 1.0)
         tableView.separatorStyle = .none
