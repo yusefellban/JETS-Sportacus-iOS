@@ -12,6 +12,8 @@ protocol FavoritesViewProtocol: AnyObject {
     func hideLoading()
     func displayFavorites(_ favorites: [League])
     func showError(_ message: String)
+    func navigateToLeagueDetails(for league: League, sport: Sport)
+    func showNoInternetAlert()
 }
 
 protocol FavoritesPresenterProtocol: AnyObject {
@@ -22,4 +24,5 @@ protocol FavoritesPresenterProtocol: AnyObject {
     
     var numberOfFavorites: Int { get }
     func favorite(at index: Int) -> League
+    func selectFavorite(at index: Int)
 }

@@ -8,7 +8,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
     private var upcomingEvents: [UpcomingEvent] = []
     private var latestEvents: [LatestEvent] = []
     private var teams: [Team] = []
-    private var isFavorite: Bool = false
+    private(set) var isFavorite: Bool = false
     
     init(view: LeagueDetailsViewProtocol, league: League, sport: Sport) {
         self.view = view
@@ -19,6 +19,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
     func viewDidLoad() {
         view?.showLoading()
         view?.displayLeagueName(league.leagueName)
+        isFavorite = FavoritesManager.shared.isFavorite(league)
         view?.showFavoriteState(isFavorite: isFavorite)
         
         // Teams will be fetched via API
@@ -137,6 +138,11 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
     }
     
     func toggleFavorite() {
+        if isFavorite {
+            FavoritesManager.shared.removeFromFavorites(league)
+        } else {
+            FavoritesManager.shared.addToFavorites(league, sport: sport)
+        }
         isFavorite.toggle()
         view?.showFavoriteState(isFavorite: isFavorite)
     }

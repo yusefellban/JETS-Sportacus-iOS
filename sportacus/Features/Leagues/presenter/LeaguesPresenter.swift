@@ -74,7 +74,7 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
         if FavoritesManager.shared.isFavorite(selectedLeague) {
             FavoritesManager.shared.removeFromFavorites(selectedLeague)
         } else {
-            FavoritesManager.shared.addToFavorites(selectedLeague)
+            FavoritesManager.shared.addToFavorites(selectedLeague, sport: sport)
         }
         view?.displayLeagues(filteredLeagues)
     }

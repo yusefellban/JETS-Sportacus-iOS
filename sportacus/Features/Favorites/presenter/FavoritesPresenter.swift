@@ -53,28 +53,48 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
     func favorite(at index: Int) -> League {
         return filteredFavorites[index]
     }
+    
+    func selectFavorite(at index: Int) {
+        guard index >= 0 && index < filteredFavorites.count else { return }
+        
+        if NetworkMonitor.shared.isConnected {
+            let league = filteredFavorites[index]
+            // Get sportName from CoreData to reconstruct Sport enum
+            let favourites = CoreDataManager.shared.fetchAllFavourites()
+            let sportName = favourites.first(where: { $0.leagueKey == league.leagueKey })?.sportName ?? "football"
+            let sport = Sport(rawValue: sportName) ?? .football
+            view?.navigateToLeagueDetails(for: league, sport: sport)
+        } else {
+            view?.showNoInternetAlert()
+        }
+    }
 }
 
-// MARK: - FavoritesManager Shared State Singleton
+// MARK: - FavoritesManager CoreData-Backed Singleton
 class FavoritesManager {
     static let shared = FavoritesManager()
     
-    private(set) var favorites: [League] = [
-        League(leagueKey: 3, leagueName: "Premier League", leagueLogo: "premier_league", countryName: "England"),
-        League(leagueKey: 4, leagueName: "Primera", leagueLogo: "la_liga", countryName: "Spain"),
-        League(leagueKey: 5, leagueName: "Serie A", leagueLogo: "serie_a", countryName: "Italy")
-    ]
-    
-    func isFavorite(_ league: League) -> Bool {
-        return favorites.contains { $0.leagueKey == league.leagueKey }
+    var favorites: [League] {
+        return CoreDataManager.shared.fetchAllFavourites().map { entity in
+            League(
+                leagueKey: entity.leagueKey,
+                leagueName: entity.leagueName ?? "",
+                leagueLogo: entity.leagueLogo,
+                countryName: entity.countryName ?? ""
+            )
+        }
     }
     
-    func addToFavorites(_ league: League) {
-        guard !isFavorite(league) else { return }
-        favorites.append(league)
+    func isFavorite(_ league: League) -> Bool {
+        return CoreDataManager.shared.isFavourite(leagueKey: league.leagueKey)
+    }
+    
+    func addToFavorites(_ league: League, sport: Sport) {
+        CoreDataManager.shared.addFavourite(league: league, sport: sport)
     }
     
     func removeFromFavorites(_ league: League) {
-        favorites.removeAll { $0.leagueKey == league.leagueKey }
+        CoreDataManager.shared.removeFavourite(leagueKey: league.leagueKey)
     }
 }
+

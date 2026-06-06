@@ -42,6 +42,7 @@ protocol LeagueDetailsViewProtocol: AnyObject {
 protocol LeagueDetailsPresenterProtocol: AnyObject {
     var view: LeagueDetailsViewProtocol? { get set }
     var league: League { get }
+    var isFavorite: Bool { get }
     
     func viewDidLoad()
     func toggleFavorite()
