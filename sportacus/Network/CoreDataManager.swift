@@ -90,6 +90,39 @@ class CoreDataManager {
         }
     }
     
+    
+    // MARK: - Onboarding
+    
+    func setOnboardingCompleted() {
+        let request: NSFetchRequest<OnboardingStatus> = OnboardingStatus.fetchRequest()
+        
+        do {
+            let results = try context.fetch(request)
+            if let existing = results.first {
+                existing.hasCompleted = true
+            } else {
+                let status = OnboardingStatus(context: context)
+                status.hasCompleted = true
+            }
+            saveContext()
+        } catch {
+            print("Error setting onboarding status: \(error.localizedDescription)")
+        }
+    }
+    
+    func isOnboardingCompleted() -> Bool {
+        let request: NSFetchRequest<OnboardingStatus> = OnboardingStatus.fetchRequest()
+        request.fetchLimit = 1
+        
+        do {
+            let results = try context.fetch(request)
+            return results.first?.hasCompleted ?? false
+        } catch {
+            print("Error checking onboarding status: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
     // MARK: - Save
     
     private func saveContext() {
