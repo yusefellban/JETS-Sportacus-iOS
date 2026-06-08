@@ -7,4 +7,7 @@
         <attribute name="leagueName" attributeType="String"/>
         <attribute name="sportName" attributeType="String"/>
     </entity>
+    <entity name="OnboardingStatus" representedClassName="OnboardingStatus" syncable="YES" codeGenerationType="class">
+        <attribute name="hasCompleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+    </entity>
 </model>

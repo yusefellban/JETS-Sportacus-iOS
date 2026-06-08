@@ -25,6 +25,9 @@ class ThirdOnboardingViewController: UIViewController {
     
 
     @IBAction func getStartedAction(_ sender: Any) {
+        // Mark onboarding as completed in Core Data
+        CoreDataManager.shared.setOnboardingCompleted()
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController else { return }
         
