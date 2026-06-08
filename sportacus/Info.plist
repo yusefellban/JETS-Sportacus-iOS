@@ -21,6 +21,8 @@
 			</array>
 		</dict>
 	</dict>
+	<key>CFBundleDisplayName</key>
+	<string>Sportacus</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 </dict>
