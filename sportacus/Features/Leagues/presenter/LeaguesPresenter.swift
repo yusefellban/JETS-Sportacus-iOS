@@ -28,6 +28,7 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
                 self.view?.hideLoading()
                 switch result {
                 case .success(let leagues):
+                    print("DEBUG: Fetched \(leagues.count) leagues for \(self.sport.rawValue)")
                     self.allLeagues = leagues
                     self.filteredLeagues = leagues
                     self.view?.displayLeagues(self.filteredLeagues)

@@ -23,14 +23,14 @@ struct League: Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        // Decode leagueName
-        leagueName = try container.decode(String.self, forKey: .leagueName)
+        // Decode leagueName safely
+        leagueName = (try? container.decode(String.self, forKey: .leagueName)) ?? "Unknown League"
         
         // Decode leagueLogo (nullable/optional)
-        leagueLogo = try container.decodeIfPresent(String.self, forKey: .leagueLogo)
+        leagueLogo = try? container.decodeIfPresent(String.self, forKey: .leagueLogo)
         
         // Decode countryName (safely fallback to "International" if null or missing)
-        countryName = (try container.decodeIfPresent(String.self, forKey: .countryName)) ?? "International"
+        countryName = (try? container.decodeIfPresent(String.self, forKey: .countryName)) ?? "International"
         
         // Decode leagueKey safely from either String or Int64/Int
         if let keyInt = try? container.decode(Int64.self, forKey: .leagueKey) {
@@ -40,13 +40,7 @@ struct League: Codable {
         } else if let keyString = try? container.decode(String.self, forKey: .leagueKey), let keyInt = Int64(keyString) {
             leagueKey = keyInt
         } else {
-            throw DecodingError.typeMismatch(
-                Int64.self,
-                DecodingError.Context(
-                    codingPath: container.codingPath + [CodingKeys.leagueKey],
-                    debugDescription: "league_key could not be decoded as Int64, Int, or convertible String"
-                )
-            )
+            leagueKey = 0
         }
     }
     
