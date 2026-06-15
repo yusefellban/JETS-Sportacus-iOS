@@ -43,6 +43,8 @@
 		DCB5D5052FCEF0D200540247 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCB5D5042FCEF0D200540247 /* Assets.xcassets */; };
 		DCB5D5082FCEF0D200540247 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCB5D5062FCEF0D200540247 /* LaunchScreen.storyboard */; };
 		DCB5D5132FCEF0D300540247 /* sportacusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB5D5122FCEF0D300540247 /* sportacusTests.swift */; };
+		AA000001AAAA000100000001 /* LeaguesPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000002AAAA000200000002 /* LeaguesPresenterTests.swift */; };
+		AA000003AAAA000300000003 /* LeagueDetailsPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000004AAAA000400000004 /* LeagueDetailsPresenterTests.swift */; };
 		DCB5D51D2FCEF0D300540247 /* sportacusUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB5D51C2FCEF0D300540247 /* sportacusUITests.swift */; };
 		DCB5D51F2FCEF0D300540247 /* sportacusUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB5D51E2FCEF0D300540247 /* sportacusUITestsLaunchTests.swift */; };
 		DCB6CCCB2FD40ED300F002C7 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB6CCCA2FD40ED300F002C7 /* CoreDataManager.swift */; };
@@ -106,6 +108,8 @@
 		DCB5D5092FCEF0D200540247 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCB5D50E2FCEF0D300540247 /* sportacusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sportacusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCB5D5122FCEF0D300540247 /* sportacusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sportacusTests.swift; sourceTree = "<group>"; };
+		AA000002AAAA000200000002 /* LeaguesPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguesPresenterTests.swift; sourceTree = "<group>"; };
+		AA000004AAAA000400000004 /* LeagueDetailsPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueDetailsPresenterTests.swift; sourceTree = "<group>"; };
 		DCB5D5182FCEF0D300540247 /* sportacusUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sportacusUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCB5D51C2FCEF0D300540247 /* sportacusUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sportacusUITests.swift; sourceTree = "<group>"; };
 		DCB5D51E2FCEF0D300540247 /* sportacusUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sportacusUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -334,6 +338,8 @@
 			isa = PBXGroup;
 			children = (
 				DCB5D5122FCEF0D300540247 /* sportacusTests.swift */,
+				AA000002AAAA000200000002 /* LeaguesPresenterTests.swift */,
+				AA000004AAAA000400000004 /* LeagueDetailsPresenterTests.swift */,
 			);
 			path = sportacusTests;
 			sourceTree = "<group>";
@@ -561,6 +567,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DCB5D5132FCEF0D300540247 /* sportacusTests.swift in Sources */,
+				AA000001AAAA000100000001 /* LeaguesPresenterTests.swift in Sources */,
+				AA000003AAAA000300000003 /* LeagueDetailsPresenterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
