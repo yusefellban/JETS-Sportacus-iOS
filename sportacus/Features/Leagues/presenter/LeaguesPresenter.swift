@@ -12,7 +12,7 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
     
     private var allLeagues: [League] = []
     private var filteredLeagues: [League] = []
-    private let sport: Sport
+    let sport: Sport
     
     init(view: LeaguesViewProtocol, sport: Sport) {
         self.view = view

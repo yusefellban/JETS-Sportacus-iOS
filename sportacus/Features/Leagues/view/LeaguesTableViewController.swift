@@ -99,9 +99,10 @@ class LeaguesTableViewController: UITableViewController, LeaguesViewProtocol, UI
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LeagueTableViewCell.reuseIdentifier, for: indexPath) as! LeagueTableViewCell
-        if let leagueItem = presenter?.league(at: indexPath.row) {
-            let isFav = presenter?.isFavorite(league: leagueItem) ?? false
-            cell.configure(with: leagueItem, isFavorite: isFav, isFavoritesScreen: false)
+        if let league = presenter?.league(at: indexPath.row) {
+            let isFav = presenter?.isFavorite(league: league) ?? false
+            let placeholder = presenter?.sport == .tennis ? "tennisball.circle.fill" : "trophy.circle.fill"
+            cell.configure(with: league, isFavorite: isFav, isFavoritesScreen: false, placeholderImageName: placeholder)
             cell.onActionTapped = { [weak self] in
                 self?.presenter?.toggleFavorite(at: indexPath.row)
             }

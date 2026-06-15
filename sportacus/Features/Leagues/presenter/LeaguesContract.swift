@@ -25,4 +25,5 @@ protocol LeaguesPresenterProtocol: AnyObject {
     func league(at index: Int) -> League
     func isFavorite(league: League) -> Bool
     func toggleFavorite(at index: Int)
+    var sport: Sport { get }
 }

@@ -63,10 +63,19 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
             let favourites = CoreDataManager.shared.fetchAllFavourites()
             let sportName = favourites.first(where: { $0.leagueKey == league.leagueKey })?.sportName ?? "football"
             let sport = Sport(rawValue: sportName) ?? .football
+            
             view?.navigateToLeagueDetails(for: league, sport: sport)
         } else {
             view?.showNoInternetAlert()
         }
+    }
+    
+    func getSport(for league: League) -> Sport? {
+        let favourites = CoreDataManager.shared.fetchAllFavourites()
+        if let sportName = favourites.first(where: { $0.leagueKey == league.leagueKey })?.sportName {
+            return Sport(rawValue: sportName)
+        }
+        return nil
     }
 }
 

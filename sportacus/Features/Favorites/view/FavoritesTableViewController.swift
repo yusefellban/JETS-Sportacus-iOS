@@ -96,7 +96,8 @@ class FavoritesTableViewController: UITableViewController, FavoritesViewProtocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LeagueTableViewCell.reuseIdentifier, for: indexPath) as! LeagueTableViewCell
         if let leagueItem = presenter?.favorite(at: indexPath.row) {
-            cell.configure(with: leagueItem, isFavorite: true, isFavoritesScreen: true)
+            let placeholder = presenter?.getSport(for: leagueItem) == .tennis ? "tennisball.fill" : "trophy.circle.fill"
+            cell.configure(with: leagueItem, isFavorite: true, isFavoritesScreen: true, placeholderImageName: placeholder)
             cell.onActionTapped = { [weak self] in
                 self?.confirmDeletion(at: indexPath)
             }

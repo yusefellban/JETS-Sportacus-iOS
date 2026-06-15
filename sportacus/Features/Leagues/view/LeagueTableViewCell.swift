@@ -54,11 +54,11 @@ class LeagueTableViewCell: UITableViewCell {
         onActionTapped?()
     }
     
-    func configure(with league: League, isFavorite: Bool, isFavoritesScreen: Bool) {
+    func configure(with league: League, isFavorite: Bool, isFavoritesScreen: Bool, placeholderImageName: String = "trophy.circle.fill") {
         nameLabel.text = league.leagueName
         countryLabel.text = league.countryName
         
-        let placeholder = UIImage(systemName: "trophy.circle.fill")
+        let placeholder = UIImage(systemName: placeholderImageName) ?? UIImage(systemName: "trophy.circle.fill")
         badgeImageView.tintColor = UIColor(named: "LimeNeon") ?? .systemGreen
         badgeImageView.loadImage(from: league.leagueLogo, placeholder: placeholder)
         

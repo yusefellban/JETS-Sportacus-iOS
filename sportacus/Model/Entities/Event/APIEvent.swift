@@ -28,6 +28,12 @@ struct APIEvent: Codable {
         case awayTeamLogo = "away_team_logo"
         case eventHomeTeamLogo = "event_home_team_logo"
         case eventAwayTeamLogo = "event_away_team_logo"
+        
+        // Tennis specific keys
+        case eventFirstPlayer = "event_first_player"
+        case eventSecondPlayer = "event_second_player"
+        case eventFirstPlayerLogo = "event_first_player_logo"
+        case eventSecondPlayerLogo = "event_second_player_logo"
     }
     
     init(from decoder: Decoder) throws {
@@ -44,21 +50,29 @@ struct APIEvent: Codable {
             eventKey = 0
         }
         
-        eventHomeTeam = (try? container.decode(String.self, forKey: .eventHomeTeam)) ?? "Home Team"
-        eventAwayTeam = (try? container.decode(String.self, forKey: .eventAwayTeam)) ?? "Away Team"
+        let hTeam = try? container.decodeIfPresent(String.self, forKey: .eventHomeTeam)
+        let fPlayer = try? container.decodeIfPresent(String.self, forKey: .eventFirstPlayer)
+        eventHomeTeam = hTeam ?? fPlayer ?? "Home Team"
+        
+        let aTeam = try? container.decodeIfPresent(String.self, forKey: .eventAwayTeam)
+        let sPlayer = try? container.decodeIfPresent(String.self, forKey: .eventSecondPlayer)
+        eventAwayTeam = aTeam ?? sPlayer ?? "Away Team"
+        
         eventDate = (try? container.decode(String.self, forKey: .eventDate)) ?? ""
         eventTime = (try? container.decode(String.self, forKey: .eventTime)) ?? ""
         eventFinalResult = try? container.decodeIfPresent(String.self, forKey: .eventFinalResult)
         
-        // Try home_team_logo first, then event_home_team_logo
+        // Try home_team_logo first, then event_home_team_logo, then event_first_player_logo
         let primaryHomeLogo = try? container.decodeIfPresent(String.self, forKey: .homeTeamLogo)
         let secondaryHomeLogo = try? container.decodeIfPresent(String.self, forKey: .eventHomeTeamLogo)
-        homeTeamLogo = primaryHomeLogo ?? secondaryHomeLogo
+        let firstPlayerLogo = try? container.decodeIfPresent(String.self, forKey: .eventFirstPlayerLogo)
+        homeTeamLogo = primaryHomeLogo ?? secondaryHomeLogo ?? firstPlayerLogo
         
-        // Try away_team_logo first, then event_away_team_logo
+        // Try away_team_logo first, then event_away_team_logo, then event_second_player_logo
         let primaryAwayLogo = try? container.decodeIfPresent(String.self, forKey: .awayTeamLogo)
         let secondaryAwayLogo = try? container.decodeIfPresent(String.self, forKey: .eventAwayTeamLogo)
-        awayTeamLogo = primaryAwayLogo ?? secondaryAwayLogo
+        let secondPlayerLogo = try? container.decodeIfPresent(String.self, forKey: .eventSecondPlayerLogo)
+        awayTeamLogo = primaryAwayLogo ?? secondaryAwayLogo ?? secondPlayerLogo
     }
     
     func encode(to encoder: Encoder) throws {

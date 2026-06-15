@@ -88,7 +88,8 @@ class NetworkService {
     }
     
     func fetchTeams(for sport: Sport, leagueId: Int64, completion: @escaping (Result<[APITeam], Error>) -> Void) {
-        let urlString = "\(APIConstants.baseUrl)/\(sport.rawValue)/?met=Teams&leagueId=\(leagueId)&APIkey=\(APIConstants.apiKey)"
+        let method = sport == .tennis ? "Players" : "Teams"
+        let urlString = "\(APIConstants.baseUrl)/\(sport.rawValue)/?met=\(method)&leagueId=\(leagueId)&APIkey=\(APIConstants.apiKey)"
         
         guard let url = URL(string: urlString) else {
             let error = NSError(domain: "NetworkService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL structure"])
@@ -167,6 +168,11 @@ struct APITeam: Codable {
         case teamLogo = "team_logo"
         case players = "players"
         case coaches = "coaches"
+        
+        // Tennis specific keys
+        case playerKey = "player_key"
+        case playerName = "player_name"
+        case playerLogo = "player_logo"
     }
     
     init(from decoder: Decoder) throws {
@@ -179,12 +185,24 @@ struct APITeam: Codable {
             teamKey = Int64(keyInt)
         } else if let keyString = try? container.decode(String.self, forKey: .teamKey), let keyInt = Int64(keyString) {
             teamKey = keyInt
+        } else if let pKeyInt = try? container.decode(Int64.self, forKey: .playerKey) {
+            teamKey = pKeyInt
+        } else if let pKeyInt = try? container.decode(Int.self, forKey: .playerKey) {
+            teamKey = Int64(pKeyInt)
+        } else if let pKeyString = try? container.decode(String.self, forKey: .playerKey), let pKeyInt = Int64(pKeyString) {
+            teamKey = pKeyInt
         } else {
             teamKey = 0
         }
         
-        teamName = (try? container.decode(String.self, forKey: .teamName)) ?? "Unknown Team"
-        teamLogo = try? container.decodeIfPresent(String.self, forKey: .teamLogo)
+        let tName = try? container.decodeIfPresent(String.self, forKey: .teamName)
+        let pName = try? container.decodeIfPresent(String.self, forKey: .playerName)
+        teamName = tName ?? pName ?? "Unknown Team"
+        
+        let tLogo = try? container.decodeIfPresent(String.self, forKey: .teamLogo)
+        let pLogo = try? container.decodeIfPresent(String.self, forKey: .playerLogo)
+        teamLogo = tLogo ?? pLogo
+        
         players = try? container.decodeIfPresent([APIPlayer].self, forKey: .players)
         coaches = try? container.decodeIfPresent([APICoach].self, forKey: .coaches)
     }

@@ -25,4 +25,5 @@ protocol FavoritesPresenterProtocol: AnyObject {
     var numberOfFavorites: Int { get }
     func favorite(at index: Int) -> League
     func selectFavorite(at index: Int)
+    func getSport(for league: League) -> Sport?
 }

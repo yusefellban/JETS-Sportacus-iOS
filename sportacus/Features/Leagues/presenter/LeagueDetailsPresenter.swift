@@ -30,15 +30,16 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol {
         let today = Date()
         let calendar = Calendar.current
         
-        guard let thirtyDaysFuture = calendar.date(byAdding: .day, value: 30, to: today),
-              let thirtyDaysPast = calendar.date(byAdding: .day, value: -30, to: today) else {
+        // Expand date range to 365 days to ensure we catch short-lived tournaments (e.g. Tennis)
+        guard let futureDate = calendar.date(byAdding: .day, value: 365, to: today),
+              let pastDate = calendar.date(byAdding: .day, value: -365, to: today) else {
             view?.hideLoading()
             return
         }
         
         let todayStr = formatter.string(from: today)
-        let futureStr = formatter.string(from: thirtyDaysFuture)
-        let pastStr = formatter.string(from: thirtyDaysPast)
+        let futureStr = formatter.string(from: futureDate)
+        let pastStr = formatter.string(from: pastDate)
         
         let dispatchGroup = DispatchGroup()
         
