@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="sportacus/logo.png" alt="Sportacus Logo" width="120"/>
+  <img src="Screenshots/app_logo.png" alt="Sportacus Logo" width="120"/>
 </p>
 
 <h1 align="center">⚽ Sportacus — Sports Tracker iOS App</h1>
