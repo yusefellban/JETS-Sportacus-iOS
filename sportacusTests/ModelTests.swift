@@ -122,4 +122,108 @@ final class ModelTests: XCTestCase {
         XCTAssertEqual(event.homeTeamLogo, "nadal.png")
         XCTAssertEqual(event.awayTeamLogo, "federer.png")
     }
+
+    // MARK: - APITeam Decoding Tests
+
+    func testAPITeamDecoding_FootballFormat_Succeeds() throws {
+        let json = """
+        {
+            "team_key": 12,
+            "team_name": "Arsenal",
+            "team_logo": "arsenal.png",
+            "players": [
+                {"player_name": "Saka", "player_type": "Forward"}
+            ],
+            "coaches": [
+                {"coach_name": "Arteta"}
+            ]
+        }
+        """.data(using: .utf8)!
+
+        let team = try JSONDecoder().decode(APITeam.self, from: json)
+        XCTAssertEqual(team.teamKey, 12)
+        XCTAssertEqual(team.teamName, "Arsenal")
+        XCTAssertEqual(team.teamLogo, "arsenal.png")
+        XCTAssertEqual(team.players?.count, 1)
+        XCTAssertEqual(team.players?.first?.playerName, "Saka")
+        XCTAssertEqual(team.coaches?.first?.coachName, "Arteta")
+    }
+
+    func testAPITeamDecoding_TennisPlayerFormat_Succeeds() throws {
+        let json = """
+        {
+            "player_key": "888",
+            "player_name": "Djokovic",
+            "player_logo": "djokovic.png"
+        }
+        """.data(using: .utf8)!
+
+        let team = try JSONDecoder().decode(APITeam.self, from: json)
+        XCTAssertEqual(team.teamKey, 888)
+        XCTAssertEqual(team.teamName, "Djokovic")
+        XCTAssertEqual(team.teamLogo, "djokovic.png")
+        XCTAssertNil(team.players)
+        XCTAssertNil(team.coaches)
+    }
+
+    // MARK: - API Response Wrapper Resilience Tests
+
+    func testLeaguesResponse_WithSuccessfulList_DecodesArray() throws {
+        let json = """
+        {
+            "success": 1,
+            "result": [
+                {
+                    "league_key": 1,
+                    "league_name": "Premier League",
+                    "country_name": "England"
+                }
+            ]
+        }
+        """.data(using: .utf8)!
+
+        let responseObj = try JSONDecoder().decode(LeaguesResponse.self, from: json)
+        XCTAssertEqual(responseObj.success, 1)
+        XCTAssertEqual(responseObj.result?.count, 1)
+        XCTAssertEqual(responseObj.result?.first?.leagueName, "Premier League")
+    }
+
+    func testLeaguesResponse_WithErrorString_DecodesAsNilResult() throws {
+        let json = """
+        {
+            "success": 0,
+            "result": "No leagues found or system error message"
+        }
+        """.data(using: .utf8)!
+
+        let responseObj = try JSONDecoder().decode(LeaguesResponse.self, from: json)
+        XCTAssertEqual(responseObj.success, 0)
+        XCTAssertNil(responseObj.result, "result should be safely decoded as nil instead of failing")
+    }
+
+    func testTeamsResponse_WithErrorString_DecodesAsNilResult() throws {
+        let json = """
+        {
+            "success": "0",
+            "result": "No teams found for the given league ID"
+        }
+        """.data(using: .utf8)!
+
+        let responseObj = try JSONDecoder().decode(TeamsResponse.self, from: json)
+        XCTAssertEqual(responseObj.success, 0)
+        XCTAssertNil(responseObj.result, "result should be safely decoded as nil instead of failing")
+    }
+
+    func testEventResponse_WithErrorString_DecodesAsNilResult() throws {
+        let json = """
+        {
+            "success": 0,
+            "result": "System error: league is invalid"
+        }
+        """.data(using: .utf8)!
+
+        let responseObj = try JSONDecoder().decode(EventResponse.self, from: json)
+        XCTAssertEqual(responseObj.success, 0)
+        XCTAssertNil(responseObj.result, "result should be safely decoded as nil instead of failing")
+    }
 }
