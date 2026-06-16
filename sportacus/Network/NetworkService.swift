@@ -9,6 +9,7 @@ import Foundation
 
 class NetworkService {
     static let shared = NetworkService()
+    var session: URLSession = URLSession.shared
     
     private init() {}
     
@@ -21,7 +22,7 @@ class NetworkService {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -58,7 +59,7 @@ class NetworkService {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -97,7 +98,7 @@ class NetworkService {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))
                 return
