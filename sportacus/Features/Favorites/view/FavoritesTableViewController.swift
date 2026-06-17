@@ -64,6 +64,41 @@ class FavoritesTableViewController: UITableViewController, FavoritesViewProtocol
     }
     
     func displayFavorites(_ favorites: [League]) {
+        if favorites.isEmpty {
+            let emptyStateView = UIView(frame: tableView.bounds)
+            
+            let imageView = UIImageView(image: UIImage(systemName: "star.slash.fill"))
+            imageView.tintColor = .systemGray3
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.contentMode = .scaleAspectFit
+            
+            let label = UILabel()
+            label.text = "No favorites yet.\nStart adding some leagues!"
+            label.numberOfLines = 0
+            label.textAlignment = .center
+            label.textColor = .systemGray
+            label.font = .systemFont(ofSize: 18, weight: .medium)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            
+            emptyStateView.addSubview(imageView)
+            emptyStateView.addSubview(label)
+            
+            NSLayoutConstraint.activate([
+                imageView.centerXAnchor.constraint(equalTo: emptyStateView.centerXAnchor),
+                imageView.centerYAnchor.constraint(equalTo: emptyStateView.centerYAnchor, constant: -40),
+                imageView.widthAnchor.constraint(equalToConstant: 80),
+                imageView.heightAnchor.constraint(equalToConstant: 80),
+                
+                label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 16),
+                label.leadingAnchor.constraint(equalTo: emptyStateView.leadingAnchor, constant: 32),
+                label.trailingAnchor.constraint(equalTo: emptyStateView.trailingAnchor, constant: -32)
+            ])
+            
+            tableView.backgroundView = emptyStateView
+        } else {
+            tableView.backgroundView = nil
+        }
+        
         tableView.reloadData()
     }
     
