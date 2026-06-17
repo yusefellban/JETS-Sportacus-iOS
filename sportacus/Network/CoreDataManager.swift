@@ -2,7 +2,7 @@
 //  CoreDataManager.swift
 //  sportacus
 //
-//  Created by Antigravity on 06/06/2026.
+//  Created by Mackbok bro on 06/06/2026.
 //
 
 import Foundation
