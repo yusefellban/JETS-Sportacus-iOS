@@ -14,6 +14,42 @@ class LeagueDetailsViewController: UIViewController, LeagueDetailsViewProtocol, 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var stackView: UIStackView!
     
+    private lazy var emptyStateView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "tray.fill")
+        imageView.tintColor = .systemGray3
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let label = UILabel()
+        label.text = "No League Data Available"
+        label.textColor = .systemGray
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(imageView)
+        view.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -40),
+            imageView.widthAnchor.constraint(equalToConstant: 100),
+            imageView.heightAnchor.constraint(equalToConstant: 100),
+            
+            label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 16),
+            label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+        
+        return view
+    }()
+    
     // Section 1: Upcoming Events
     @IBOutlet weak var upcomingHeaderLabel: UILabel!
     @IBOutlet weak var upcomingCollectionView: UICollectionView!
@@ -38,6 +74,15 @@ class LeagueDetailsViewController: UIViewController, LeagueDetailsViewProtocol, 
         
         // Apply LimeNeon tint — CALayer colors cannot reference named colors in storyboard
         activityIndicator.color = UIColor(named: "LimeNeon") ?? .systemGreen
+        
+        view.addSubview(emptyStateView)
+        NSLayoutConstraint.activate([
+            emptyStateView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            emptyStateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            emptyStateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            emptyStateView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        view.bringSubviewToFront(activityIndicator)
         
         presenter?.viewDidLoad()
     }
@@ -79,6 +124,13 @@ class LeagueDetailsViewController: UIViewController, LeagueDetailsViewProtocol, 
     
     func hideLoading() {
         activityIndicator.stopAnimating()
+        checkEmptyState()
+    }
+    
+    private func checkEmptyState() {
+        let isEmpty = upcomingEvents.isEmpty && latestEvents.isEmpty && teams.isEmpty
+        emptyStateView.isHidden = !isEmpty
+        scrollView.isHidden = isEmpty
     }
     
     func displayLeagueName(_ name: String) {
@@ -87,19 +139,36 @@ class LeagueDetailsViewController: UIViewController, LeagueDetailsViewProtocol, 
     
     func displayUpcomingEvents(_ events: [UpcomingEvent]) {
         self.upcomingEvents = events
+        if events.isEmpty {
+            setEmptyMessage("No upcoming events", for: upcomingCollectionView, iconName: "calendar")
+        } else {
+            clearEmptyMessage(for: upcomingCollectionView)
+        }
         upcomingCollectionView.reloadData()
     }
     
     func displayLatestEvents(_ events: [LatestEvent]) {
         self.latestEvents = events
+        if events.isEmpty {
+            setEmptyMessage("No latest events", for: latestEventsCollectionView, iconName: "clock")
+            latestEventsHeightConstraint?.constant = 140
+        } else {
+            clearEmptyMessage(for: latestEventsCollectionView)
+            latestEventsCollectionView.reloadData()
+            latestEventsCollectionView.layoutIfNeeded()
+            latestEventsHeightConstraint?.constant = latestEventsCollectionView.collectionViewLayout.collectionViewContentSize.height
+        }
         latestEventsCollectionView.reloadData()
-        latestEventsCollectionView.layoutIfNeeded()
-        latestEventsHeightConstraint?.constant = latestEventsCollectionView.collectionViewLayout.collectionViewContentSize.height
         view.setNeedsLayout()
     }
     
     func displayTeams(_ teams: [Team]) {
         self.teams = teams
+        if teams.isEmpty {
+            setEmptyMessage("No teams available", for: teamsCollectionView, iconName: "person.3")
+        } else {
+            clearEmptyMessage(for: teamsCollectionView)
+        }
         teamsCollectionView.reloadData()
     }
     
@@ -115,6 +184,46 @@ class LeagueDetailsViewController: UIViewController, LeagueDetailsViewProtocol, 
         )
         favoriteButton.tintColor = UIColor(named: "LimeNeon") ?? .systemGreen
         navigationItem.rightBarButtonItem = favoriteButton
+    }
+    
+    // MARK: - Empty State Helpers
+    private func setEmptyMessage(_ message: String, for collectionView: UICollectionView, iconName: String) {
+        let view = UIView()
+        view.frame = collectionView.bounds
+        
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: iconName)
+        imageView.tintColor = .systemGray3
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let label = UILabel()
+        label.text = message
+        label.textColor = .systemGray
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(imageView)
+        view.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -16),
+            imageView.widthAnchor.constraint(equalToConstant: 40),
+            imageView.heightAnchor.constraint(equalToConstant: 40),
+            
+            label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
+            label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+        
+        collectionView.backgroundView = view
+    }
+    
+    private func clearEmptyMessage(for collectionView: UICollectionView) {
+        collectionView.backgroundView = nil
     }
     
     // MARK: - UICollectionViewDataSource
